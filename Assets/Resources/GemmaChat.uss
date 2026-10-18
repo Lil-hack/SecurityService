@@ -1,0 +1,35 @@
+.unity-button {
+    background-color: rgb(29, 57, 82);
+    color: rgb(232, 241, 250);
+    border-width: 1px;
+    border-color: rgb(58, 92, 120);
+    border-radius: 6px;
+    margin-right: 8px;
+}
+.unity-button:hover { background-color: rgb(39, 79, 110); }
+.unity-button:disabled { opacity: 0.45; }
+.unity-base-text-field__input {
+    background-color: rgb(18, 28, 44);
+    color: rgb(235, 242, 255);
+    border-width: 1px;
+    border-color: rgb(67, 92, 120);
+    border-radius: 6px;
+    padding: 8px;
+}
+.unity-base-text-field__input:focus { border-color: rgb(96, 188, 230); }
+.unity-base-field__label { color: rgb(185, 204, 224); }
+#trustBar .unity-progress-bar__background {
+    background-color: rgb(24, 36, 53);
+    border-color: rgb(58, 92, 120);
+    border-width: 1px;
+    border-radius: 5px;
+}
+#trustBar .unity-progress-bar__progress {
+    background-color: rgb(31, 100, 137);
+    border-width: 0;
+    border-radius: 4px;
+}
+#trustBar .unity-progress-bar__title {
+    color: rgb(245, 250, 255);
+    -unity-font-style: bold;
+}

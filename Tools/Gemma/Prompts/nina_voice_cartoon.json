@@ -1,0 +1,12 @@
+{
+  "voicePath": "Models/Piper/Mantella-RU-Piper-1.0/SKSE/Plugins/MantellaSoftware/piper/models/skyrim/low/femalecommoner.onnx",
+  "telephone": true,
+  "openingAudio": "Characters/NinaOpeningCartoon",
+  "telephoneStrength": 25.0,
+  "pitchSemitones": 3.5,
+  "ratePercent": 110.0,
+  "pauseMilliseconds": 80.0,
+  "tremblePercent": 32.0,
+  "variationPercent": 28.0,
+  "raspPercent": 3.0
+}

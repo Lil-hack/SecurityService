@@ -1,0 +1,11 @@
+{
+  "characters": [
+    {
+      "id": "nina",
+      "name": "Нина Петровна",
+      "openingText": "Алло? Это Нина Петровна. Мне СМС пришло, будто деньги снимают! Ой, милок, что же делать?",
+      "promptPath": "Tools/Gemma/Prompts/nina_petrovna.txt",
+      "voiceProfilePath": "Tools/Gemma/Prompts/nina_voice_cartoon.json"
+    }
+  ]
+}

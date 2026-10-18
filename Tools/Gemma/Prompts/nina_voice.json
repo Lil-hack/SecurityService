@@ -1,0 +1,12 @@
+{
+    "voicePath": "Models/Piper/Mantella-RU-Piper-1.0/SKSE/Plugins/MantellaSoftware/piper/models/skyrim/low/femalecommoner.onnx",
+    "telephone": true,
+    "openingAudio": "Characters/NinaOpeningGrandmother",
+    "telephoneStrength": 55.0,
+    "pitchSemitones": -1.5,
+    "ratePercent": 88.0,
+    "pauseMilliseconds": 180.0,
+    "tremblePercent": 18.0,
+    "variationPercent": 22.0,
+    "raspPercent": 10.0
+}

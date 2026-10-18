@@ -1,0 +1,64 @@
+.phone-window {
+    width: 380px;
+    max-width: 100%;
+    height: 100%;
+    max-height: 780px;
+    background-color: rgb(5, 15, 17);
+    border-width: 2px;
+    border-color: rgb(72, 120, 128);
+    border-radius: 5px;
+    flex-shrink: 0;
+    overflow: hidden;
+    color: rgb(223, 238, 235);
+}
+.phone-chrome {
+    height: 25px;
+    min-height: 25px;
+    background-color: rgb(223, 230, 231);
+    color: rgb(21, 39, 41);
+    align-items: center;
+    padding-left: 8px;
+    justify-content: space-between;
+    -unity-font-style: bold;
+    font-size: 12px;
+}
+#lineCaption { font-size: 8px; color: rgb(72, 99, 100); }
+.phone-window .phone-close { height: 22px; width: 28px; margin-right: 0; padding: 0; background-color: transparent; color: rgb(183, 28, 48); border-width: 0; font-size: 22px; }
+.phone-body { flex-grow: 1; padding: 7px; min-height: 0; }
+.phone-trust-card { background-color: rgb(2, 12, 13); border-width: 1px; border-color: rgb(49, 86, 89); border-radius: 5px; padding: 6px; flex-shrink: 0; margin-bottom: 6px; }
+.phone-trust-heading { justify-content: space-between; font-size: 10px; -unity-font-style: bold; }
+.phone-trust-state { color: rgb(77, 231, 126); font-size: 10px; }
+.phone-trust-line { align-items: center; margin-top: 4px; }
+.phone-trust-percent { font-size: 11px; -unity-font-style: bold; margin-left: 6px; color: rgb(230, 246, 234); }
+.phone-window #trustBar .unity-progress-bar__background { background-color: rgb(18, 39, 34); border-width: 0; border-radius: 0; }
+.phone-window #trustBar .unity-progress-bar__progress { background-color: rgb(67, 219, 111); border-radius: 0; }
+.phone-window #trustBar .unity-progress-bar__title { display: none; }
+.phone-portrait { border-width: 1px; border-color: rgb(66, 111, 113); border-radius: 5px; overflow: hidden; flex-shrink: 0; background-color: rgb(80, 120, 117); }
+.phone-character { margin: 0; height: 28px; }
+.phone-character .unity-base-popup-field__input { background-color: rgb(40, 65, 65); border-width: 0; border-radius: 0; padding-top: 3px; padding-bottom: 3px; }
+.phone-character .unity-base-popup-field__text { color: rgb(227, 240, 235); -unity-font-style: bold; -unity-text-align: middle-center; font-size: 13px; }
+.phone-image-area { flex-grow: 1; min-height: 0; }
+.phone-avatar { width: 100%; height: 100%; position: absolute; }
+.phone-signal { height: 16px; flex-shrink: 0; background-color: rgb(1, 15, 19); border-top-width: 1px; border-top-color: rgb(67, 108, 108); }
+.phone-information { margin-top: 5px; margin-bottom: 5px; flex-shrink: 0; }
+.phone-status { font-size: 10px; color: rgb(134, 173, 166); white-space: normal; }
+.phone-feedback { font-size: 10px; white-space: normal; }
+.phone-history { flex-grow: 1; border-width: 1px; border-color: rgb(47, 84, 83); border-radius: 4px; margin-bottom: 5px; }
+.phone-history .unity-scroller--vertical { width: 8px; }
+.phone-history .unity-scroller__low-button, .phone-history .unity-scroller__high-button { display: none; }
+.phone-composer { flex-shrink: 0; align-items: center; margin-bottom: 5px; }
+.phone-input { min-width: 0; }
+.phone-input .unity-base-text-field__input { background-color: rgb(14, 24, 25); color: rgb(202, 228, 221); border-color: rgb(51, 82, 82); border-radius: 4px; padding: 5px; }
+.phone-window .phone-send { width: 35px; height: 40px; padding: 0; margin: 0 0 0 4px; background-color: rgb(26, 92, 56); border-color: rgb(66, 145, 93); font-size: 23px; color: rgb(222, 251, 228); }
+.phone-footer { height: 38px; flex-shrink: 0; }
+.phone-window .phone-new { height: 36px; width: 62px; padding: 0; margin: 0 5px 0 0; background-color: rgb(217, 229, 225); color: rgb(24, 49, 42); border-color: rgb(123, 153, 141); font-size: 11px; }
+.phone-window .phone-hangup { height: 36px; flex-grow: 1; margin: 0 5px 0 0; padding: 0; background-color: rgb(194, 24, 58); border-color: rgb(235, 67, 94); color: white; -unity-font-style: bold; font-size: 13px; }
+.phone-window .phone-sound { height: 36px; width: 76px; padding: 0; margin: 0; background-color: rgb(30, 119, 60); color: rgb(221, 251, 225); border-color: rgb(82, 170, 101); font-size: 10px; }
+.phone-window .phone-muted { background-color: rgb(57, 72, 68); border-color: rgb(97, 118, 110); }
+.phone-incoming { flex-grow: 1; justify-content: center; align-items: center; background-color: rgb(5, 22, 20); border-width: 1px; border-color: rgb(49, 86, 78); border-radius: 5px; padding: 10px; min-height: 100px; }
+.phone-call-caption { font-size: 10px; color: rgb(93, 219, 149); -unity-font-style: bold; margin-bottom: 6px; }
+.phone-caller { font-size: 17px; -unity-font-style: bold; color: rgb(234, 245, 237); }
+.phone-call-hint { font-size: 10px; color: rgb(147, 178, 167); white-space: normal; -unity-text-align: middle-center; margin-top: 5px; margin-bottom: 12px; }
+.phone-call-actions { width: 100%; justify-content: center; flex-shrink: 0; }
+.phone-window .phone-answer { height: 40px; flex-grow: 1; background-color: rgb(26, 133, 63); border-color: rgb(76, 208, 116); color: white; -unity-font-style: bold; margin: 0 4px 0 0; padding: 0; }
+.phone-window .phone-decline { height: 40px; flex-grow: 1; background-color: rgb(190, 25, 56); border-color: rgb(232, 77, 100); color: white; -unity-font-style: bold; margin: 0 0 0 4px; padding: 0; }
