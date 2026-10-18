@@ -3,6 +3,10 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 .utmp/
+/.local/
+/Models/
+/Assets/_Recovery/
+/Assets/_Recovery.meta
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
