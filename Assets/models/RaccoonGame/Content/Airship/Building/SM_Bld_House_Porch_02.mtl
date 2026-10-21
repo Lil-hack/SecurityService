@@ -1,0 +1,14 @@
+newmtl mi_HouseInteriorWalls_01
+Kd 1.000 1.000 1.000
+
+newmtl mat_HouseRoof_01
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_RoofTiles_01_A.png
+
+newmtl mi_HouseExteriorWalls_01
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonOffice/Textures/T_OfficeWoodPlanks.png
+
+newmtl Mat_SwatchOverlay_PolygonTown_01_Wood_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_WoodGrain_02_A.png

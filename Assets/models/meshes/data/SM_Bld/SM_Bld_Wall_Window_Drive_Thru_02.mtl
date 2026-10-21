@@ -1,0 +1,27 @@
+newmtl PolygonShops_Mat_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonShops_Texture_01_A_4a64e463.png
+map_Ke ../../../textures/PolygonShops_Texture_01_Emissive_7df3ca29.png
+
+newmtl Generic_Brick 2
+Ka 1.2556 1.0090 0.9547
+Kd 1.2556 1.0090 0.9547
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Brick.png
+
+newmtl Generic_Brick 2_2
+Ka 1.2556 1.0090 0.9547
+Kd 1.2556 1.0090 0.9547
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Brick.png

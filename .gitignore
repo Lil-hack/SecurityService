@@ -5,6 +5,8 @@
 .utmp/
 /.local/
 /Models/
+/[Tt]ools/
+/OfficePreview/
 /Assets/_Recovery/
 /Assets/_Recovery.meta
 /[Ll]ibrary/

@@ -1,0 +1,6 @@
+newmtl Mat_PolygonTown_01_A_Inst
+Kd 1.000 1.000 1.000
+
+newmtl m_SoccerNetting
+Kd 1.000 1.000 1.000
+map_Kd ../../Materials/Textures/TMask_CrossPattern_02.png

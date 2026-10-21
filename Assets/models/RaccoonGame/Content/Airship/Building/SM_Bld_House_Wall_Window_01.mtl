@@ -1,0 +1,10 @@
+newmtl mi_WhiteTrim
+Kd 1.000 1.000 1.000
+
+newmtl mi_HouseInteriorWalls_02
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonOffice/Textures/T_OfficeWall2.png
+
+newmtl mi_HouseExteriorWalls_01
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonOffice/Textures/T_OfficeWoodPlanks.png

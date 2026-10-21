@@ -1,0 +1,4 @@
+newmtl Mat_PolygonTown_04_C
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/Misc/T_PolygonTown_Normal_C.png
+map_Bump ../../Textures/Misc/T_PolygonTown_Normal_C.png

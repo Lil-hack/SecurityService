@@ -1,0 +1,8 @@
+newmtl MI_ColorPalette
+Kd 1.000 1.000 1.000
+
+newmtl MI_glossyOrange
+Kd 1.000 1.000 1.000
+
+newmtl M_Glass
+Kd 1.000 1.000 1.000

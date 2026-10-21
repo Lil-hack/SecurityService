@@ -1,0 +1,21 @@
+newmtl HotelWall_Brown_01
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonCasino_Texture_04_A.png
+map_Bump ../../../textures/HotelWall_01_normals.png
+bump ../../../textures/HotelWall_01_normals.png
+
+newmtl HotelWall_Brown_01_1
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonCasino_Texture_04_A.png
+map_Bump ../../../textures/HotelWall_01_normals.png
+bump ../../../textures/HotelWall_01_normals.png

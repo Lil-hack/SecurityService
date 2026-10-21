@@ -1,0 +1,8 @@
+newmtl Generic_Concrete 1
+Ka 0.4941 0.3843 0.3294
+Kd 0.4941 0.3843 0.3294
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Concrete.png

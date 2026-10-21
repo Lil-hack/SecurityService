@@ -1,0 +1,5 @@
+newmtl Mi_CoolingBox_Bottom
+Kd 1.000 1.000 1.000
+
+newmtl Mi_CoolingBox_Top
+Kd 1.000 1.000 1.000

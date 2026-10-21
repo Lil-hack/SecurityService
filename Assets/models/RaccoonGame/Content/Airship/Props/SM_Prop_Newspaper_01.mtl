@@ -1,0 +1,4 @@
+newmtl Mat_PolygonCity_Texture_01_A
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonCity/Textures/T_PolygonCity_Texture_Roughness.png
+map_Bump ../../AssetPacks/PolygonCity/Textures/T_PolygonCity_Texture_Normal_01.png

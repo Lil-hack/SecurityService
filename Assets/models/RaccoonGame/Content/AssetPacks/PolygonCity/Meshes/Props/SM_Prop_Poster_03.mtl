@@ -1,0 +1,3 @@
+newmtl Mat_Custom_Billboards
+Kd 1.000 1.000 1.000
+map_Kd ../../../../Materials/Textures/T_Billboards_Custom_02.png

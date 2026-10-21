@@ -1,0 +1,10 @@
+newmtl Decal_Metal_01
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 27.8000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Bullet_Decal_Diff.png
+map_Bump ../../../textures/Bullet_Decal_Normals.png
+bump ../../../textures/Bullet_Decal_Normals.png

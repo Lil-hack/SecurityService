@@ -1,0 +1,18 @@
+mtllib SM_Prop_Decal_Large_01.mtl
+g SM_Prop_Decal_Large_01
+v -2.5 -2.5 0.00389149506
+v 2.5 -2.5 0.00389149506
+v -2.5 2.5 0.00389149506
+v 2.5 2.5 0.00389149506
+vt 0 0
+vt 1 0
+vt 0 1
+vt 1 1
+vn -0 0 1
+vn -0 0 1
+vn -0 0 1
+vn -0 0 1
+g SM_Prop_Decal_Large_01_0
+usemtl Decal_Graffiti_01
+f 4/4/4 3/3/3 1/1/1
+f 2/2/2 4/4/4 1/1/1

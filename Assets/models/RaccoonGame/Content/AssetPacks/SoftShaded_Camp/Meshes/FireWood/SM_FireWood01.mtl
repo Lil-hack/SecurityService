@@ -1,0 +1,6 @@
+newmtl Mat_MainWS_WoodRotated_Dark_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../../../../Airship/Textures/T_WoodGrain_02_A.png
+
+newmtl Mi_FireWoodDark
+Kd 1.000 1.000 1.000

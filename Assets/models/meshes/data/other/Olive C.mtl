@@ -1,0 +1,8 @@
+newmtl Brick_Brown_Mat_01 Ecco
+Ka 0.5690 0.5233 0.7547
+Kd 0.5690 0.5233 0.7547
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Brick.png

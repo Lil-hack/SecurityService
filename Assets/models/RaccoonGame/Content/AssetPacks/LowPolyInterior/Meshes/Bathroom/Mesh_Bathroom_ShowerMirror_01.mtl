@@ -1,0 +1,3 @@
+newmtl M_LowPolyInterior_01
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/Texture_01.png

@@ -1,0 +1,7 @@
+newmtl MI_Body_Grey
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/Raccoon_BaseColor_Gray_V4.png
+
+newmtl MI_Hair_Grey
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/Raccoon_BaseColor_Gray_V4.png

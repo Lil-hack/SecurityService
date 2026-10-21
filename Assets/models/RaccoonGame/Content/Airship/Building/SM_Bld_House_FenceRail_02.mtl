@@ -1,0 +1,7 @@
+newmtl Mat_SwatchOverlay_AtlasSchool_01_Wood_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_AtlasSchool01A_D.png
+
+newmtl Mat_SwatchOverlay_AtlasSchool_01_WoodRotated_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/LowPolyWorld/Textures/T_AtlasSchool01A_D.png

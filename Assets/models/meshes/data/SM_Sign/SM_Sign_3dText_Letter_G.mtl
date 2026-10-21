@@ -1,0 +1,8 @@
+newmtl Plaster_Red_01 1
+Ka 0.6330 0.5521 0.5521
+Kd 0.6330 0.5521 0.5521
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Plaster_Red_01.png

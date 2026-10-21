@@ -1,0 +1,17 @@
+newmtl Glass_01_PN
+Ka 0.5549 0.7854 0.8113
+Kd 0.5549 0.7854 0.8113
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 0.2000
+illum 2
+
+newmtl PolygonGangWarfare_Material_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonGangWarfare_Texture_01_A_6639619b.png
+map_Ke ../../../textures/PolygonGangWarfare_Emissive_01_A_57d2b32b.png

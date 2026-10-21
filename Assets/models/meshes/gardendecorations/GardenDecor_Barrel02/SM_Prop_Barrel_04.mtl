@@ -1,0 +1,10 @@
+newmtl PolygonApocalypseWasteland_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonApocalypseWasteland_01_A.png
+map_Bump ../../../textures/PolygonApocalypseWasteland_Normal_01.png
+bump ../../../textures/PolygonApocalypseWasteland_Normal_01.png

@@ -1,0 +1,4 @@
+newmtl MI_CampFire_Assets
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/Campfire/T_CampFireAssets_Low_Campfire_Assets_BaseColor.png
+map_Bump ../../Textures/Campfire/T_CampFireAssets_Low_Campfire_Assets_Normal.png

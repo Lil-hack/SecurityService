@@ -1,0 +1,8 @@
+newmtl BSMC_Outfit_Top_OpenShoulder_Mat
+Ka 0.4000 0.4000 0.4000
+Kd 0.4000 0.4000 0.4000
+Ks 0.2000 0.2000 0.2000
+Ns 25.1233
+d 1.0000
+illum 2
+map_Kd ../../../textures/OpenShoulder_D.png

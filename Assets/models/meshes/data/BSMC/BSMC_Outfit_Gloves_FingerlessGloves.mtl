@@ -1,0 +1,16 @@
+newmtl BSMC_Outfit_Gloves_Fingerless_Mat
+Ka 0.4000 0.4000 0.4000
+Kd 0.4000 0.4000 0.4000
+Ks 0.2000 0.2000 0.2000
+Ns 25.1233
+d 1.0000
+illum 2
+map_Kd ../../../textures/Fingerless_D.png
+
+newmtl BSMC_Skin_01_Mat45
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 25.1233
+d 1.0000
+illum 2

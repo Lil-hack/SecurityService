@@ -1,0 +1,21 @@
+newmtl Floor_07
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 80.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Tile_Tex_04.png
+map_Bump ../../../textures/Tile_Normal_01.png
+bump ../../../textures/Tile_Normal_01.png
+
+newmtl Curch_Roof_01
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Church_Roof_01.png
+map_Bump ../../../textures/Church_Roof_normals.png
+bump ../../../textures/Church_Roof_normals.png

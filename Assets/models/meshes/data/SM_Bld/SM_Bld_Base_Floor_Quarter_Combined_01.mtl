@@ -1,0 +1,19 @@
+newmtl Black
+Ka 0.1509 0.1509 0.1509
+Kd 0.1509 0.1509 0.1509
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Bump ../../../textures/PolygonCasino_Road_Normal_01.png
+bump ../../../textures/PolygonCasino_Road_Normal_01.png
+
+newmtl Black_1
+Ka 0.1509 0.1509 0.1509
+Kd 0.1509 0.1509 0.1509
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Bump ../../../textures/PolygonCasino_Road_Normal_01.png
+bump ../../../textures/PolygonCasino_Road_Normal_01.png

@@ -1,0 +1,14 @@
+mtllib SM_Bld_House_Interior_Stairs_WallGap_01.mtl
+g SM_Bld_House_Interior_Stairs_WallGap_01
+v -7.62939408E-07 -1.10870022E-16 1.12501907
+v -0 -2.22044605E-16 0
+v -0 0.922139347 0
+vt 0.0799560547 0.75
+vt 0.00698852539 0.75
+vt 0.00698852539 0.827148438
+vn -1 0 0
+vn -1 0 0
+vn -1 0 0
+g SM_Bld_House_Interior_Stairs_WallGap_01_0
+usemtl BarfenderLitWarmup
+f 3/3/3 2/2/2 1/1/1

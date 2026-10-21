@@ -1,0 +1,5 @@
+newmtl m_Black
+Kd 1.000 1.000 1.000
+
+newmtl Mat_TVScreen
+Kd 1.000 1.000 1.000

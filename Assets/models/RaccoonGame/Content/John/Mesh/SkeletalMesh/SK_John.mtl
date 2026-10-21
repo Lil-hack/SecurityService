@@ -1,0 +1,7 @@
+newmtl MI_John
+Kd 1.000 1.000 1.000
+map_Kd ../../../Characters/Exterminator/JohnAirship/Textures/John_BaseColor_OrangeOutfit.png
+
+newmtl MI_Haircards
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/T_John_Cards_Diffuse_V2.png

@@ -1,0 +1,7 @@
+newmtl M_BigRadioGlow
+Kd 1.000 1.000 1.000
+map_Kd ../../../../Werewolf_AnimSet/demo/Textures/FX_Textures/Tex_Noise004.png
+
+newmtl Mat_SwatchOverlay_PolygonOffice_01_Metal_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../../../Textures/T_PolygonOffice_01_A.png

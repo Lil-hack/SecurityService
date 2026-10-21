@@ -1,0 +1,3 @@
+newmtl M_Mesh_Liquid01
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Noise01.png

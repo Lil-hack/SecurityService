@@ -1,0 +1,30 @@
+newmtl Concrete_01 1
+Ka 0.6439 0.7649 0.8585
+Kd 0.6439 0.7649 0.8585
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Concrete.png
+
+newmtl Floor_08
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 80.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Tile_Tex_05.png
+map_Bump ../../../textures/Tile_Normal_01.png
+bump ../../../textures/Tile_Normal_01.png
+
+newmtl Tiles_02
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Tile_Tex_11.png
+map_Bump ../../../textures/Tile_Normal_07.png
+bump ../../../textures/Tile_Normal_07.png

@@ -1,0 +1,5 @@
+newmtl m_Glass
+Kd 1.000 1.000 1.000
+
+newmtl mi_Drink_01
+Kd 1.000 1.000 1.000

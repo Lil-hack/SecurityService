@@ -1,0 +1,18 @@
+newmtl PolygonApocalypse_Material_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonApocalypse_Texture_01_A_1a059272.png
+map_Bump ../../../textures/PolygonApocalypse_Normal_cf962791.png
+bump ../../../textures/PolygonApocalypse_Normal_cf962791.png
+
+newmtl Glass_01_PN
+Ka 0.5549 0.7854 0.8113
+Kd 0.5549 0.7854 0.8113
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 0.2000
+illum 2

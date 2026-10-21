@@ -1,0 +1,8 @@
+newmtl LightCage
+Ka 0.5598 0.5488 0.5488
+Kd 0.5598 0.5488 0.5488
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonShops_Texture_01_A_4a64e463.png

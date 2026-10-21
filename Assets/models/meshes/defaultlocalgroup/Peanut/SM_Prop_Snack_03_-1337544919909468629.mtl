@@ -1,0 +1,10 @@
+newmtl M_PopcornWrapper_DIRTTINT
+Ka 0.7098 0.7301 0.8196
+Kd 0.7098 0.7301 0.8196
+Ks 0.2000 0.2000 0.2000
+Ns 100.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PopcornWrapper.png
+map_Ke ../../../textures/PolygonCasino_Emissive_01_A.png
+map_Pm ../../../textures/metallicMask.png

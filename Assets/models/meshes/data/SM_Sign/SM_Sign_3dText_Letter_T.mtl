@@ -1,0 +1,11 @@
+newmtl TileBlueRoofPlate_Albedo
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 50.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/TileBlueRoofPlate_Albedo.png
+map_Bump ../../../textures/Posters_Crab_01.png
+bump ../../../textures/Posters_Crab_01.png
+map_Pm ../../../textures/HardwareChris_BSMC_MergeMaterial_D.png

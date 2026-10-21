@@ -1,0 +1,74 @@
+newmtl MI_CarPaint_DarkBlue
+Kd 1.000 1.000 1.000
+
+newmtl M_Black_Color
+Kd 1.000 1.000 1.000
+
+newmtl M_Windshield
+Kd 1.000 1.000 1.000
+
+newmtl M_RedLight
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_RedLight_Color.png
+map_Bump ../Textures/T_RedLight_Normal.png
+
+newmtl M_Left_SingLight
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Left_SignLight_Color.png
+map_Bump ../Textures/T_Left_SignLight_Normal.png
+
+newmtl M_Right_SingLight
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Right_SignLight_Color.png
+map_Bump ../Textures/T_Right_SignLight_Normal.png
+
+newmtl M_FrontLight
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_FrontLight_Color.png
+map_Bump ../Textures/T_FrontLight_Normal.png
+
+newmtl M_Mirror
+Kd 1.000 1.000 1.000
+
+newmtl M_Seat
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Seat_Color.png
+map_Bump ../Textures/T_Seat_Normal.png
+
+newmtl M_Gray_Color
+Kd 1.000 1.000 1.000
+
+newmtl M_VentGrid
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_VentGrid_Color.png
+map_Bump ../Textures/T_VentGrid_Normal.png
+
+newmtl M_Speedometer
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Speedometer.png
+
+newmtl M_Radio
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Radio.png
+
+newmtl M_DisplayScreen
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Display_Screen.png
+
+newmtl M_Tire
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Tire_Color.png
+map_Bump ../Textures/T_Tire_Normal.png
+
+newmtl M_TireSide
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_TireSide_Color.png
+
+newmtl M_Licence_Plate
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/Exterm_License_Plate.png
+
+newmtl M_Pedals
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Pedals_Color.png
+map_Bump ../Textures/T_Pedals_Normal.png

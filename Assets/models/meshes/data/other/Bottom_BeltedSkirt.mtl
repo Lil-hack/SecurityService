@@ -1,0 +1,8 @@
+newmtl BSMC_Outfit_Bottom_BeltedSkirt_Mat
+Ka 0.8000 0.8000 0.8000
+Kd 0.8000 0.8000 0.8000
+Ks 0.2000 0.2000 0.2000
+Ns 25.1233
+d 1.0000
+illum 2
+map_Kd ../../../textures/BSMC_BeltedSkirt_D.png

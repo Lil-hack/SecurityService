@@ -1,0 +1,19 @@
+newmtl PolygonApocalypse_Material_Fence_01
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Wire_Alpha_ed173868.png
+
+newmtl PolygonApocalypse_Material_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonApocalypse_Texture_01_A_1a059272.png
+map_Bump ../../../textures/PolygonApocalypse_Normal_cf962791.png
+bump ../../../textures/PolygonApocalypse_Normal_cf962791.png

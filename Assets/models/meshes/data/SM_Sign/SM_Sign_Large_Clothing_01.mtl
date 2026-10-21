@@ -1,0 +1,9 @@
+newmtl PolygonShops_Mat_04_A 1
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonShops_Texture_04_A_35072b1b.png
+map_Ke ../../../textures/PolygonShops_Texture_01_Emissive_7df3ca29.png

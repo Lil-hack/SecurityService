@@ -1,0 +1,3 @@
+newmtl mi_FarmExterior_Dirt
+Kd 1.000 1.000 1.000
+map_Kd ../../../Airship/Textures/T_Dirt_A.png

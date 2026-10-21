@@ -1,0 +1,12 @@
+newmtl Prop_BeerTaps_Albedo
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Prop_BeerTaps_Albedo.png
+map_Bump ../../../textures/Prop_BeerTaps_Normal.png
+bump ../../../textures/Prop_BeerTaps_Normal.png
+map_Ke ../../../textures/Prop_BeerTaps_Emissive.png
+map_Pm ../../../textures/Prop_BeerTaps_Albedo_MaskMap.png

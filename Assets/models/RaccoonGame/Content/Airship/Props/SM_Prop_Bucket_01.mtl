@@ -1,0 +1,3 @@
+newmtl Mat_SwatchOverlay_Airship
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_SurfaceNoise_01_A.png

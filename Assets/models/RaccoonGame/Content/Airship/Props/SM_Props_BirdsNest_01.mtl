@@ -1,0 +1,7 @@
+newmtl Mat_SwatchOverlay_Farm_Main_01_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_LowpolyFarm_01_A.png
+
+newmtl Mat_SwatchOverlay_Farm_01_WoodB_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/LowPolyFarm/Textures/Texture_01.png

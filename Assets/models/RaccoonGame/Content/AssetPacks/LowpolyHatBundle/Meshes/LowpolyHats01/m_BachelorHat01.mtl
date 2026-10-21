@@ -1,0 +1,3 @@
+newmtl mat_BachelorHat01
+Kd 1.000 1.000 1.000
+map_Kd ../../Textures/LP_Hats01_Tex/t_BachelorHat01_Albedo.png

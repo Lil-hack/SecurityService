@@ -1,0 +1,7 @@
+newmtl M_LowPolyFarm_MAIN
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/LowPolyFarm/Textures/Texture_01.png
+
+newmtl Mat_SwatchOverlay_Airship
+Kd 1.000 1.000 1.000
+map_Kd ../../Airship/Textures/T_SurfaceNoise_01_A.png

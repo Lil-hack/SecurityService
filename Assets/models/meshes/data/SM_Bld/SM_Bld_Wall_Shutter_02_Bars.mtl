@@ -1,0 +1,8 @@
+newmtl PolygonShops_Shutter_01
+Ka 0.8495 0.8495 0.8495
+Kd 0.8495 0.8495 0.8495
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Shutter_Transparent.png

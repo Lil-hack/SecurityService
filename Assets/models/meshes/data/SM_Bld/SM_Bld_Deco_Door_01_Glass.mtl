@@ -1,0 +1,8 @@
+newmtl Glass_01
+Ka 0.7814 1.0000 0.7354
+Kd 0.7814 1.0000 0.7354
+Ks 0.2000 0.2000 0.2000
+Ns 100.0000
+d 0.5020
+illum 2
+map_Kd ../../../textures/PolygonPalmCity_01_A.png

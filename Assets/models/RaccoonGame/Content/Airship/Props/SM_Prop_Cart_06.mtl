@@ -1,0 +1,3 @@
+newmtl M_Material
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/Farm_1/Textures/T_Texture.png

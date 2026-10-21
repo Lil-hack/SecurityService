@@ -1,0 +1,4 @@
+newmtl M_CT_FoodToy_color
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_Food_Toy_BaseColor.png
+map_Bump ../Textures/T_Food_Toy_Normal.png

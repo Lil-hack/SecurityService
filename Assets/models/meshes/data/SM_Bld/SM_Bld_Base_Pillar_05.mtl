@@ -1,0 +1,11 @@
+newmtl TileWoodPlate_Albedo 1
+Ka 0.5094 0.5094 0.5094
+Kd 0.5094 0.5094 0.5094
+Ks 0.2000 0.2000 0.2000
+Ns 40.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/TileWoodPlate_Albedo.png
+map_Bump ../../../textures/TileWoodPlate_Normal.png
+bump ../../../textures/TileWoodPlate_Normal.png
+map_Pm ../../../textures/TileWoodPlate_Albedo_MaskMap.png

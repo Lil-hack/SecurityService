@@ -1,0 +1,8 @@
+newmtl BSMC_Outfit_LowerFace_FullBeard_Mat
+Ka 0.0943 0.0943 0.0943
+Kd 0.0943 0.0943 0.0943
+Ks 0.2000 0.2000 0.2000
+Ns 0.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Fullbeard_D.png

@@ -1,0 +1,4 @@
+newmtl Mat_LargeRocks
+Kd 1.000 1.000 1.000
+map_Kd ../Textures/T_SurfaceNoise_01_A.png
+map_Bump ../Textures/T_LargeRocks_N.png

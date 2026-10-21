@@ -1,0 +1,11 @@
+newmtl PolygonCity_Mat_02_C
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 100.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/PolygonCity_Texture_02_C.png
+map_Bump ../../../textures/PolygonCity_Texture_Normal_5bc42ae8.png
+bump ../../../textures/PolygonCity_Texture_Normal_5bc42ae8.png
+map_Pm ../../../textures/PolygonCity_Texture_Metallic_f87c2144.png

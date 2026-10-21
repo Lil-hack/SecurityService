@@ -1,0 +1,23 @@
+newmtl Prop_DeerHead_Albedo
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Prop_DeerHead_Albedo.png
+map_Bump ../../../textures/Prop_DeerHead_Normal.png
+bump ../../../textures/Prop_DeerHead_Normal.png
+map_Pm ../../../textures/Prop_DeerHead_Albedo_MaskMap.png
+
+newmtl Prop_Horn_Albedo
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Prop_Horn_Albedo.png
+map_Bump ../../../textures/Prop_Horn_Normal.png
+bump ../../../textures/Prop_Horn_Normal.png
+map_Pm ../../../textures/Prop_Horn_Albedo_MaskMap.png

@@ -1,0 +1,3 @@
+newmtl m_FallLeaves
+Kd 1.000 1.000 1.000
+map_Kd ../Particles/Textures/P_TextureAtlas_FallLeaves_01.png

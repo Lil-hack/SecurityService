@@ -1,0 +1,18 @@
+mtllib SM_Env_Ground_Small_01.mtl
+g SM_Env_Ground_Small_01
+v -0 0 0
+v 5.00001955 0 0
+v 5.00001955 0 4.99998522
+v -0 0 4.99998522
+vt 0.0346679688 0.965332031
+vt 0.5 0.965332031
+vt 0.5 0.5
+vt 0.0346679688 0.5
+vn -0 1 0
+vn -0 1 0
+vn -0 1 0
+vn -0 1 0
+g SM_Env_Ground_Small_01_0
+usemtl PolygonShops_Road_01
+f 2/2/2 1/1/1 4/4/4
+f 3/3/3 2/2/2 4/4/4

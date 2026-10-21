@@ -1,0 +1,7 @@
+newmtl Mat_SwatchOverlay_PolygonOffice_LobbyBoard_01
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonOffice/Textures/T_PolygonOffice_LobbyBoard_02.png
+
+newmtl Mat_SwatchOverlay_Office_Emissive_Inst
+Kd 1.000 1.000 1.000
+map_Kd ../../AssetPacks/PolygonOffice/Textures/T_PolygonOffice_LobbyBoard_01.png

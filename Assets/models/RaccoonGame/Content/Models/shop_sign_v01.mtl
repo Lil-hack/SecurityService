@@ -1,0 +1,3 @@
+newmtl m_ShopSign
+Kd 1.000 1.000 1.000
+map_Kd ../Airship/Textures/ShopSignTexture_v2.png

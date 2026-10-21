@@ -1,0 +1,11 @@
+newmtl mi_RoadExterior_Concrete_01
+Kd 1.000 1.000 1.000
+map_Kd ../../Materials/Textures/ground_pattern_02.png
+
+newmtl mi_RoadExterior_Concrete_02
+Kd 1.000 1.000 1.000
+map_Kd ../../Materials/Textures/ground_pattern_02.png
+
+newmtl mi_SchoolWalls_01
+Kd 1.000 1.000 1.000
+map_Kd ../../Materials/Textures/ground_pattern_02.png

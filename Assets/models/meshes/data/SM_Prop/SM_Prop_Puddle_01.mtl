@@ -1,0 +1,8 @@
+newmtl PolygonGangWarfare_Puddle_01
+Ka 0.2720 0.2720 0.2720
+Kd 0.2720 0.2720 0.2720
+Ks 0.2000 0.2000 0.2000
+Ns 69.5000
+d 0.4970
+illum 2
+map_Kd ../../../textures/PolygonGangWarfare_Texture_01_A_6639619b.png

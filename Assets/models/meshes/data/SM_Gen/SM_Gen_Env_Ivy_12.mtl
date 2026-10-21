@@ -1,0 +1,10 @@
+newmtl Generic_Ivy
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Ivy.png
+map_Bump ../../../textures/Generic_Ivy_Normals.png
+bump ../../../textures/Generic_Ivy_Normals.png

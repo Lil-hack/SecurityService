@@ -1,0 +1,12 @@
+newmtl Prop_Sign_Cocktails_Albedo
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Prop_Sign_Cocktails_Albedo_421ff683.png
+map_Bump ../../../textures/Prop_Sign_Cocktails_Normal_ec42c209.png
+bump ../../../textures/Prop_Sign_Cocktails_Normal_ec42c209.png
+map_Ke ../../../textures/Prop_Sign_Cocktails_Emissive_40f37c3c.png
+map_Pm ../../../textures/Prop_Sign_Cocktails_Albedo_MaskMap_0d07007e.png

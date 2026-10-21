@@ -1,0 +1,5 @@
+newmtl M_lantern
+Kd 1.000 1.000 1.000
+
+newmtl Mat_Glow_Lantern_Inst
+Kd 1.000 1.000 1.000

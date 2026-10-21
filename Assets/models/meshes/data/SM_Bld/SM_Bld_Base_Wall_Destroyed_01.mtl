@@ -1,0 +1,29 @@
+newmtl Generic_01_A
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 20.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_01_A_75bc285a.png
+map_Bump ../../../textures/Generic_Normals_01_1c648311.png
+bump ../../../textures/Generic_Normals_01_1c648311.png
+map_Ke ../../../textures/Generic_Emissive_01_A_c73708f7.png
+
+newmtl Brick_Brown_Mat_01
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Brick.png
+
+newmtl Brick_Brown_Mat_01_2
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 10.0000
+d 1.0000
+illum 2
+map_Kd ../../../textures/Generic_Brick.png

@@ -1,0 +1,3 @@
+newmtl mi_CustomPropMain
+Kd 1.000 1.000 1.000
+map_Kd ../../Materials/Textures/T_PolygonTown_01_Custom_01.png
