@@ -34,6 +34,7 @@ public class OfficePropGrabber : MonoBehaviour
     void Update()
     {
         if(controller==null) controller=GetComponent<OfficeThirdPersonController>();
+        if(controller!=null && !controller.ControlEnabled) { CancelThrowCharge(); SetTarget(null); hadLockedCursor=false; return; }
         bool active=Application.isFocused && Cursor.lockState==CursorLockMode.Locked;
         if(active) RefreshTarget(); else SetTarget(null);
         if(active)

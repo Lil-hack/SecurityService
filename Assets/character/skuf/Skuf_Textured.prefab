@@ -93,4 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c568e977a6f6af46acd2d0ca2a1d195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TripoArmClearance
-  minimumArmAngle: 25
+  minimumArmAngle: 36

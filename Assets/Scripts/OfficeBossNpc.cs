@@ -57,7 +57,7 @@ public class OfficeBossNpc : MonoBehaviour
         if(!near && player!=null && Vector3.Distance(player.position,transform.position)>attentionDistance+1) noticed=false;
         if(near && !noticed && conversationIndex<0 && IsSeated && CurrentAction!=Action.StandUp && CurrentAction!=Action.SitDown && drinking<.05f && reading<.05f)
         { noticed=true; GreetingCount++; conversationIndex=0; PlayAction(Action.Wave,3); }
-        if(startupPhase<0 && readInput && near && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
+        if(startupPhase<0 && readInput && near && !LaptopDesktop.BlocksWorldUse && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
         { conversationIndex=Conversation.Length; PlayAction(Reactions[reactionIndex++%Reactions.Length],4); }
         elapsed+=dt;
         if(CurrentAction==Action.Walk)
@@ -242,7 +242,7 @@ public class OfficeBossNpc : MonoBehaviour
         if(Application.isPlaying && physical!=null) physical.PoseForNpc(home,homeRotation,target,rotation,weight);
         else prop.SetPositionAndRotation(Vector3.Lerp(home,target,weight),Quaternion.Slerp(homeRotation,rotation,weight));
     }
-    void OnGUI() { if(PlayerNearby()) GUI.Label(new Rect(Screen.width*.5f-130,Screen.height-65,340,30),"E — реакция босса / продолжить разговор"); }
+    void OnGUI() { if(PlayerNearby() && !LaptopDesktop.BlocksWorldUse) GUI.Label(new Rect(Screen.width*.5f-130,Screen.height-65,340,30),"E — реакция босса / продолжить разговор"); }
     void OnDisable() { RestoreProps(); }
     void RestoreProps()
     {

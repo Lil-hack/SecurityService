@@ -41,7 +41,7 @@ public sealed class OfficeDoor : MonoBehaviour
     }
     void Update()
     {
-        if(Application.isFocused && Cursor.lockState==CursorLockMode.Locked && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
+        if(Application.isFocused && !LaptopDesktop.BlocksWorldUse && Cursor.lockState==CursorLockMode.Locked && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
             TryToggle(player);
     }
     void FixedUpdate(){TickDoor(Time.fixedDeltaTime);}
@@ -73,7 +73,7 @@ public sealed class OfficeDoor : MonoBehaviour
     }
     void OnGUI()
     {
-        if(!CanInteract(player))return;
+        if(!CanInteract(player) || LaptopDesktop.BlocksWorldUse)return;
         var rect=new Rect(Screen.width*.5f-145,Screen.height-105,290,30);
         GUI.Box(rect,IsOpen?"E — закрыть дверь":"E — открыть дверь");
     }

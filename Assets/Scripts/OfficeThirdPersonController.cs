@@ -11,6 +11,17 @@ public class OfficeThirdPersonController : MonoBehaviour
     public float walkSpeed=2.2f, runSpeed=4.2f, jumpHeight=.65f;
     public float cameraDistance=2.6f, mouseSensitivity=.12f;
     public float pushForce=18f;
+    public bool ControlEnabled { get; private set; } = true;
+    public void SetControlEnabled(bool enabled) { ControlEnabled=enabled; }
+    public void SetYaw(float degrees) { yaw=degrees; }
+    public void GetOrbitPose(out Vector3 position, out Quaternion rotation)
+    {
+        Vector3 pivot=transform.position+Vector3.up*1.42f;
+        Vector3 backwards=Quaternion.Euler(pitch,yaw,0)*Vector3.back;
+        float distance=OrbitDistance(pivot,backwards);
+        position=pivot+backwards*distance;
+        rotation=Quaternion.LookRotation(-backwards);
+    }
     Vector3 pushDirection;
     float pushDeltaTime, pushSpeed;
     CharacterController motor;
@@ -39,6 +50,7 @@ public class OfficeThirdPersonController : MonoBehaviour
 
     void Update()
     {
+        if(!ControlEnabled) return;
         var keyboard=Keyboard.current; var mouse=Mouse.current;
         if(keyboard!=null && keyboard.escapeKey.wasPressedThisFrame)
         { Cursor.lockState=CursorLockMode.None; Cursor.visible=true; }
@@ -158,11 +170,95 @@ public class OfficeThirdPersonController : MonoBehaviour
         pushedBodies[pushedCount++]=body;
     }
 
-    void LateUpdate() { UpdateCamera(); }
+    void LateUpdate() { if(ControlEnabled) UpdateCamera(); }
 
     public void RefreshVisual()
     {
         bodyRenderers=visualRoot==null?new Renderer[0]:visualRoot.GetComponentsInChildren<Renderer>();
+    }
+
+    public void EquipCharacter(GameObject prefab)
+    {
+        if(prefab==null) return;
+        if(visualRoot==null)
+        {
+            var root=new GameObject("Player visual");
+            visualRoot=root.transform;
+            visualRoot.SetParent(transform,false);
+        }
+        for(int i=visualRoot.childCount-1;i>=0;i--)
+        {
+            var child=visualRoot.GetChild(i).gameObject;
+            child.SetActive(false);
+            Destroy(child);
+        }
+        var character=Instantiate(prefab,visualRoot);
+        character.transform.localPosition=Vector3.zero;
+        character.transform.localRotation=Quaternion.identity;
+        character.transform.localScale=Vector3.one;
+        var animator=character.GetComponent<Animator>();
+        if(animator!=null)
+        {
+            animator.SetBool("Grounded",true);
+            animator.SetFloat("Speed",0f);
+            animator.SetFloat("VerticalSpeed",0f);
+            animator.Play("Locomotion",0,0f);
+            animator.Update(.2f);
+        }
+        PlaceHumanoid(character,visualRoot,2);
+        humanoidAnimator=animator;
+        leftArm=rightArm=leftLeg=rightLeg=null;
+        RefreshVisual();
+        var clearance=character.GetComponent<TripoArmClearance>();
+        if(clearance!=null) clearance.ApplyPose();
+    }
+
+    public static void PlaceHumanoid(GameObject character,Transform space,int layer)
+    {
+        var animator=character.GetComponent<Animator>();
+        if(animator!=null)
+        {
+            animator.applyRootMotion=false;
+            animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;
+            var right=animator.GetBoneTransform(HumanBodyBones.RightUpperLeg);
+            var left=animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg);
+            if(right!=null && left!=null)
+            {
+                var direction=Vector3.Cross(right.position-left.position,Vector3.up);
+                direction=space.InverseTransformDirection(direction);
+                float yaw=Mathf.Round(Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg/90f)*90f;
+                character.transform.localRotation=Quaternion.Euler(0f,-yaw,0f);
+            }
+            animator.Update(0f);
+        }
+        character.transform.localScale=Vector3.one*2f;
+        var bounds=SkinnedWorldBounds(character);
+        if(animator!=null) animator.Update(0f);
+        bounds=SkinnedWorldBounds(character);
+        var centre=space.InverseTransformPoint(bounds.center);
+        var bottom=space.InverseTransformPoint(new Vector3(bounds.center.x,bounds.min.y,bounds.center.z));
+        character.transform.localPosition-=new Vector3(centre.x,bottom.y,centre.z);
+        foreach(var part in character.GetComponentsInChildren<Transform>(true)) part.gameObject.layer=layer;
+    }
+
+    public static Bounds SkinnedWorldBounds(GameObject root)
+    {
+        var bounds=new Bounds();
+        bool first=true;
+        foreach(var renderer in root.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+        {
+            var mesh=new Mesh();
+            renderer.BakeMesh(mesh,true);
+            var vertices=mesh.vertices;
+            for(int i=0;i<vertices.Length;i++)
+            {
+                var point=renderer.transform.TransformPoint(vertices[i]);
+                if(first) { bounds=new Bounds(point,Vector3.zero); first=false; }
+                else bounds.Encapsulate(point);
+            }
+            Destroy(mesh);
+        }
+        return bounds;
     }
 
     public void UpdateCamera()
@@ -170,14 +266,20 @@ public class OfficeThirdPersonController : MonoBehaviour
         if(followCamera==null) return;
         Vector3 pivot=transform.position+Vector3.up*1.42f;
         Vector3 backwards=Quaternion.Euler(pitch,yaw,0)*Vector3.back;
+        float distance=OrbitDistance(pivot,backwards);
+        followCamera.transform.SetPositionAndRotation(pivot+backwards*distance,Quaternion.LookRotation(-backwards));
+        if(bodyRenderers==null && visualRoot!=null) bodyRenderers=visualRoot.GetComponentsInChildren<Renderer>();
+        if(bodyRenderers!=null) foreach(var renderer in bodyRenderers) if(renderer!=null) renderer.enabled=distance>.55f;
+    }
+
+    float OrbitDistance(Vector3 pivot, Vector3 backwards)
+    {
         float distance=cameraDistance;
         int count=Physics.SphereCastNonAlloc(pivot,.15f,backwards,cameraHits,distance,~(1<<2),QueryTriggerInteraction.Ignore);
         for(int i=0;i<count;i++)
             if(cameraHits[i].collider!=null && !cameraHits[i].collider.transform.IsChildOf(transform))
                 distance=Mathf.Min(distance,Mathf.Max(.12f,cameraHits[i].distance-.06f));
-        followCamera.transform.SetPositionAndRotation(pivot+backwards*distance,Quaternion.LookRotation(-backwards));
-        if(bodyRenderers==null && visualRoot!=null) bodyRenderers=visualRoot.GetComponentsInChildren<Renderer>();
-        if(bodyRenderers!=null) foreach(var renderer in bodyRenderers) if(renderer!=null) renderer.enabled=distance>.55f;
+        return distance;
     }
 
     void OnApplicationFocus(bool focused)
@@ -188,6 +290,7 @@ public class OfficeThirdPersonController : MonoBehaviour
 
     void OnGUI()
     {
+        if(LaptopDesktop.SessionActive) return;
         if(Time.time>tutorialTime && Cursor.lockState==CursorLockMode.Locked) return;
         GUI.Box(new Rect(16,16,620,76),"WASD / стрелки — движение    Shift — бег    Пробел — прыжок\nМышь — обзор    Колесо — расстояние камеры    Esc — курсор\nF — взять / отпустить    Зажми ЛКМ — сила броска, отпусти — бросок");
     }

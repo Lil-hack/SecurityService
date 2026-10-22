@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0072432933
       objectReference: {fileID: 0}
+    - target: {fileID: 576393342193857362, guid: 70a908ce6a74abf47afb2a662b470b3f, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 70a908ce6a74abf47afb2a662b470b3f, type: 3}
       propertyPath: m_Name
       value: Tripo_Textured
@@ -97,4 +101,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c568e977a6f6af46acd2d0ca2a1d195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TripoArmClearance
-  minimumArmAngle: 35
+  minimumArmAngle: 25
