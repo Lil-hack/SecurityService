@@ -29,6 +29,7 @@ public sealed class OfficeDoor : MonoBehaviour
     public bool TryToggle(Transform actor)
     {
         if(!CanInteract(actor))return false;
+        if(OfficeElevatorDoors.ButtonIsCloser(actor,InteractionPoint))return false;
         SetOpen(!IsOpen);return true;
     }
     public void SetOpen(bool open,bool immediate=false)
@@ -74,7 +75,7 @@ public sealed class OfficeDoor : MonoBehaviour
     }
     void OnGUI()
     {
-        if(!CanInteract(player) || LaptopDesktop.BlocksWorldUse)return;
+        if(!CanInteract(player) || LaptopDesktop.BlocksWorldUse || OfficeElevatorDoors.ButtonIsCloser(player,InteractionPoint))return;
         var rect=new Rect(Screen.width*.5f-145,Screen.height-105,290,30);
         GUI.Box(rect,IsOpen?"E — закрыть дверь":"E — открыть дверь");
     }

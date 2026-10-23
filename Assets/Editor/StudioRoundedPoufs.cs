@@ -11,13 +11,16 @@ public static class StudioRoundedPoufs
     {
         if(Application.isPlaying) throw new System.InvalidOperationException("Stop Play mode first.");
         var root=GameObject.Find("05 Open plan studio office");
-        var poufs=root.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="Colourful upholstered pouf").ToArray();
+        var poufs=root.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="Colourful upholstered pouf" || t.name=="Collaboration soft stool").ToArray();
         if(poufs.Length==0) throw new System.InvalidOperationException("No upholstered poufs found.");
         var mesh=BuildMesh();
         const string path="Assets/OfficeExtension/Rounded upholstered pouf.asset";
         var saved=AssetDatabase.LoadAssetAtPath<Mesh>(path);
         if(saved==null){AssetDatabase.CreateAsset(mesh,path);saved=mesh;}
         else {EditorUtility.CopySerialized(mesh,saved);Object.DestroyImmediate(mesh);}
+        const string collisionPath="Assets/OfficeExtension/Rounded pouf collision.asset";
+        var collision=AssetDatabase.LoadAssetAtPath<Mesh>(collisionPath);
+        if(collision==null){collision=BuildMesh(12);collision.name="Round pouf convex collision";AssetDatabase.CreateAsset(collision,collisionPath);}
         var wood=AssetDatabase.LoadAssetAtPath<Material>("Assets/ExecutiveOffice/Materials/Kitchen honey oak.mat");
         int i=0;
         foreach(var t in poufs)
@@ -28,7 +31,7 @@ public static class StudioRoundedPoufs
             var old=t.Find("Tailored upholstery details");if(old!=null)Object.DestroyImmediate(old.gameObject);
             var details=new GameObject("Tailored upholstery details").transform;details.SetParent(t,false);
             foreach(var c in t.GetComponents<Collider>())Object.DestroyImmediate(c);
-            var collider=t.gameObject.AddComponent<CapsuleCollider>();collider.radius=.49f;collider.height=1f;collider.direction=1;
+            var collider=t.gameObject.AddComponent<MeshCollider>();collider.sharedMesh=collision;collider.convex=true;
             // Root transforms, rigidbody and pickup component remain on the original object.
             var trim=new Material(mat);trim.name="Pouf piping "+i;
             trim.color=Color.Lerp(mat.color,Color.white,.22f);
@@ -55,14 +58,19 @@ public static class StudioRoundedPoufs
         }
         Physics.SyncTransforms();
         AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(root.scene);EditorSceneManager.SaveScene(root.scene);
-        File.WriteAllText("OfficePreview/RoundedPoufs_Result.txt","Replaced "+i+" cube poufs; preserved pickup components and rigidbodies.\n"+StudioPropPhysicsSetup.Validate());
+        foreach(var t in poufs)
+        {
+            var c=t.GetComponent<MeshCollider>();if(c==null || !c.convex || c.sharedMesh==null)throw new System.Exception("Round collision missing: "+t.name);
+            if(t.GetComponent<OfficePushableProp>()!=null && t.GetComponent<Rigidbody>()==null)throw new System.Exception("Pickup body missing: "+t.name);
+        }
+        File.WriteAllText("OfficePreview/RoundedPoufs_Result.txt","PASS: "+i+" round poufs, convex colliders; original transforms, colours and pickup components preserved.");
         Preview();
     }
-    static Mesh BuildMesh()
+    static Mesh BuildMesh(int sides=48)
     {
         float[] heights={-.5f,-.47f,-.38f,-.22f,.22f,.36f,.46f,.49f,.5f};
         float[] radii={.36f,.43f,.48f,.5f,.5f,.48f,.40f,.22f,0f};
-        const int sides=48;var verts=new Vector3[heights.Length*(sides+1)];var uv=new Vector2[verts.Length];
+        var verts=new Vector3[heights.Length*(sides+1)];var uv=new Vector2[verts.Length];
         for(int row=0;row<heights.Length;row++)for(int j=0;j<=sides;j++)
         {float a=j*Mathf.PI*2/sides;int k=row*(sides+1)+j;verts[k]=new Vector3(Mathf.Cos(a)*radii[row],heights[row],Mathf.Sin(a)*radii[row]);uv[k]=new Vector2((float)j/sides,(float)row/(heights.Length-1));}
         var tris=new System.Collections.Generic.List<int>();
@@ -80,7 +88,9 @@ public static class StudioRoundedPoufs
     public static void Preview()
     {
         var go=new GameObject("Pouf preview"){hideFlags=HideFlags.HideAndDontSave};var camera=go.AddComponent<Camera>();
-        camera.transform.position=new Vector3(20.2f,2.8f,2f);camera.transform.LookAt(new Vector3(23.4f,.6f,5.3f));camera.fieldOfView=62;camera.nearClipPlane=.05f;
+        var seats=GameObject.Find("05 Open plan studio office").GetComponentsInChildren<Transform>().Where(t=>t.name=="Collaboration soft stool").ToArray();
+        var center=seats.Aggregate(Vector3.zero,(sum,t)=>sum+t.position)/seats.Length;
+        camera.transform.position=center+new Vector3(4,2.8f,-3.3f);camera.transform.LookAt(center+Vector3.up*.3f);camera.fieldOfView=62;camera.nearClipPlane=.05f;
         var rt=new RenderTexture(1400,1000,24);var old=RenderTexture.active;var tex=new Texture2D(1400,1000,TextureFormat.RGB24,false);
         try{camera.targetTexture=rt;camera.Render();RenderTexture.active=rt;tex.ReadPixels(new Rect(0,0,1400,1000),0,0);tex.Apply();File.WriteAllBytes("OfficePreview/RoundedPoufs.png",tex.EncodeToPNG());}
         finally{camera.targetTexture=null;RenderTexture.active=old;Object.DestroyImmediate(tex);Object.DestroyImmediate(rt);Object.DestroyImmediate(go);}

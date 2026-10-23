@@ -43,6 +43,27 @@ public sealed class LaptopDesktop : MonoBehaviour
     RenderTexture roomTexture;
     GameObject desktopRoot, appWindow, cameraWindow, taskbar, startMenu, openAppSlot, characterPicker, previewInstance;
     Text appTitle, appBody, openAppLabel, clockLabel, dateLabel, characterName, characterPose, chooseLabel;
+    const string NameKey="Office.PlayerName", CharacterKey="Office.CharacterPrefab";
+    public static string PlayerName => PlayerPrefs.GetString(NameKey, "");
+    static readonly string[] CharacterNames={"Скуф","Альтушка","Тюбик","Штрих"};
+    static readonly string[] CharacterDescriptions={
+        "• Неопрятный\n• Неактивный образ жизни\n• Консервативные взгляды",
+        "• Плейлист мрачнее понедельника\n• Самовыражение важнее дресс-кода\n• Кофе чёрный, юмор ещё чернее",
+        "• Эмоционально недоступный\n• Неуверенный\n• Манипулятор",
+        "• Опасный\n• Связан с криминалом\n• Контролирующий"};
+    static readonly string[] FunnyNames={
+        "Василий Кофейный","Геннадий Дедлайн","Аркадий Перекур","Борис Без Паники","Жора Обеденный",
+        "Паша Печенькин","Степан Диванович","Лёха Табличкин","Коля Кнопкин","Витя Пятница",
+        "Семён Совещалкин","Федя Отчёткин","Игорь Не Сейчас","Толя На Созвоне","Валера Премия",
+        "Миша Котлеткин","Гриша Клавишкин","Рома Без Звука","Денис Перезагрузкин","Олег Всё Успеем",
+        "Саня Пельмень","Петя Паникович","Вова Кулерный","Тимофей Понедельник","Максим Авось",
+        "Юра Обновляйкин","Леонид Печать","Захар Запаркин","Глеб На Минутку","Антон Премудрый",
+        "Ася Чайная","Маша Дедлайн","Даша Печенька","Катя Пятиминутка","Лена Переменка",
+        "Соня Будильник","Зоя Без Суеты","Нина Кофеиновна","Вера Всё Сойдётся","Люся Премия",
+        "Таня На Удалёнке","Оля Шпаргалкина","Рита Перезагрузка","Полина Планёркина","Лиза Кнопочка",
+        "Алёна После Обеда","Ксюша Круассан","Женя Тихий Час","Слава Антистресс","Саша Почти Готово"};
+    InputField playerNameInput;
+    Text characterDescription, nameValidation;
     Image chooseImage;
     Image[] pageDots;
     Sprite cardSprite, circleSprite;
@@ -78,6 +99,7 @@ public sealed class LaptopDesktop : MonoBehaviour
         }
         if(view==null) view=Camera.main;
         if(view!=null) view.cullingMask&=~(1<<PreviewLayer);
+        RestorePlayerProfile();
         BuildRoomCamera();
         BuildDesktop();
         if(desktopRoot!=null) desktopRoot.SetActive(false);
@@ -524,6 +546,7 @@ public sealed class LaptopDesktop : MonoBehaviour
             {
                 characterPicker.transform.SetAsLastSibling();
                 ShowPreview();
+                StartCoroutine(FocusPlayerName());
             }
         }
         if(cameraWindow!=null) cameraWindow.transform.SetAsLastSibling();
@@ -574,7 +597,7 @@ public sealed class LaptopDesktop : MonoBehaviour
         FramePreviewCamera();
 
         EnsureUiSprites();
-        var card=RoundImage(desktopRoot.transform,"Character picker",new Color(.11f,.12f,.15f,.98f),cardSprite,Image.Type.Sliced);
+        var card=RoundImage(desktopRoot.transform,"Character picker",new Color(.075f,.09f,.13f,1f),cardSprite,Image.Type.Sliced);
         characterPicker=card.gameObject;
         var picker=card.rectTransform;
         picker.anchorMin=picker.anchorMax=new Vector2(.5f,.5f);
@@ -598,63 +621,111 @@ public sealed class LaptopDesktop : MonoBehaviour
         var stage=RoundImage(characterPicker.transform,"Stage",new Color(.07f,.08f,.11f,1f),cardSprite,Image.Type.Sliced);
         var stageRect=stage.rectTransform;
         stageRect.anchorMin=Vector2.zero; stageRect.anchorMax=Vector2.one;
-        stageRect.offsetMin=new Vector2(18,118); stageRect.offsetMax=new Vector2(-18,-60);
+        stageRect.offsetMin=new Vector2(18,150); stageRect.offsetMax=new Vector2(-18,-60);
 
         var viewObject=new GameObject("Preview");
         viewObject.transform.SetParent(stage.transform,false);
         var viewRect=viewObject.AddComponent<RectTransform>();
-        Stretch(viewRect);
-        viewRect.offsetMin=new Vector2(64,28); viewRect.offsetMax=new Vector2(-64,-16);
-        var fitter=viewObject.AddComponent<AspectRatioFitter>();
-        fitter.aspectMode=AspectRatioFitter.AspectMode.FitInParent;
-        fitter.aspectRatio=1f;
+        viewRect.anchorMin=viewRect.anchorMax=new Vector2(1,.5f);viewRect.pivot=new Vector2(1,.5f);
+        viewRect.sizeDelta=new Vector2(424,424);viewRect.anchoredPosition=new Vector2(-8,10);
         var characterView=viewObject.AddComponent<RawImage>();
         characterView.texture=characterTexture;
         characterView.raycastTarget=true;
         viewObject.AddComponent<LaptopOrbit>().desktop=this;
 
         var previous=RoundButton(stage.transform,"‹",new Color(1f,1f,1f,.12f),new Vector2(52,52),new Vector2(0,.5f),new Vector2(0,.5f),()=>StepCharacter(-1),out var previousLabel);
-        previous.anchoredPosition=new Vector2(14,0);
+        previous.anchorMin=previous.anchorMax=new Vector2(.73f,0);previous.pivot=new Vector2(.5f,0);
+        previous.anchoredPosition=new Vector2(-76,14);
         previousLabel.fontSize=30;
         var next=RoundButton(stage.transform,"›",new Color(1f,1f,1f,.12f),new Vector2(52,52),new Vector2(1,.5f),new Vector2(1,.5f),()=>StepCharacter(1),out var nextLabel);
-        next.anchoredPosition=new Vector2(-14,0);
+        next.anchorMin=next.anchorMax=new Vector2(.73f,0);next.pivot=new Vector2(.5f,0);
+        next.anchoredPosition=new Vector2(76,14);
         nextLabel.fontSize=30;
         var hint=Label(stage.transform,"Потяните, чтобы повернуть",14,new Color(1f,1f,1f,.42f),TextAnchor.MiddleCenter);
         var hintRect=hint.rectTransform;
         hintRect.anchorMin=new Vector2(0,0); hintRect.anchorMax=new Vector2(1,0);
         hintRect.pivot=new Vector2(.5f,0);
-        hintRect.sizeDelta=new Vector2(-24,24);
-        hintRect.anchoredPosition=new Vector2(0,8);
+        hintRect.sizeDelta=new Vector2(-360,24);
+        hintRect.anchoredPosition=new Vector2(170,72);
 
-        characterName=Label(characterPicker.transform,"",30,Color.white,TextAnchor.MiddleLeft);
+        var info=RoundImage(stage.transform,"Character description card",new Color(.11f,.14f,.20f,.97f),cardSprite,Image.Type.Sliced);
+        info.raycastTarget=false;var infoRect=info.rectTransform;
+        infoRect.anchorMin=new Vector2(0,0);infoRect.anchorMax=new Vector2(0,1);infoRect.pivot=new Vector2(0,.5f);
+        infoRect.sizeDelta=new Vector2(312,-40);infoRect.anchoredPosition=new Vector2(20,0);
+        characterName=Label(info.transform,"",30,Color.white,TextAnchor.MiddleLeft);
         characterName.fontStyle=FontStyle.Bold;
         var nameRect=characterName.rectTransform;
-        nameRect.anchorMin=nameRect.anchorMax=new Vector2(0,0);
-        nameRect.pivot=Vector2.zero;
-        nameRect.sizeDelta=new Vector2(420,38);
-        nameRect.anchoredPosition=new Vector2(28,62);
-        characterPose=Label(characterPicker.transform,"",16,new Color(.62f,.68f,.76f),TextAnchor.MiddleLeft);
+        nameRect.anchorMin=nameRect.anchorMax=new Vector2(0,1);
+        nameRect.pivot=new Vector2(0,1);
+        nameRect.sizeDelta=new Vector2(264,42);
+        nameRect.anchoredPosition=new Vector2(24,-26);
+        characterPose=Label(info.transform,"",16,new Color(.62f,.68f,.76f),TextAnchor.MiddleLeft);
         var poseRect=characterPose.rectTransform;
-        poseRect.anchorMin=poseRect.anchorMax=new Vector2(0,0);
-        poseRect.pivot=Vector2.zero;
+        poseRect.anchorMin=poseRect.anchorMax=new Vector2(0,1);
+        poseRect.pivot=new Vector2(0,1);
         poseRect.sizeDelta=new Vector2(120,24);
-        poseRect.anchoredPosition=new Vector2(28,34);
+        poseRect.anchoredPosition=new Vector2(24,-78);
         pageDots=new Image[6];
         for(int i=0;i<pageDots.Length;i++)
         {
-            var dot=RoundImage(characterPicker.transform,"Dot",new Color(1f,1f,1f,.28f),circleSprite,Image.Type.Simple);
+            var dot=RoundImage(stage.transform,"Dot",new Color(1f,1f,1f,.28f),circleSprite,Image.Type.Simple);
             var dotRect=dot.rectTransform;
-            dotRect.anchorMin=dotRect.anchorMax=new Vector2(0,0);
+            dotRect.anchorMin=dotRect.anchorMax=new Vector2(.73f,1);
             dotRect.pivot=new Vector2(0,.5f);
             dotRect.sizeDelta=new Vector2(8,8);
-            dotRect.anchoredPosition=new Vector2(156+i*16,46);
+            dotRect.anchoredPosition=new Vector2(-28+i*16,-22);
             pageDots[i]=dot;
         }
         var choose=RoundButton(characterPicker.transform,"Выбрать",new Color(.23f,.47f,.98f),new Vector2(188,48),new Vector2(1,0),new Vector2(1,0),ChooseCharacter,out chooseLabel);
-        choose.anchoredPosition=new Vector2(-22,32);
+        choose.anchoredPosition=new Vector2(-28,44);
         chooseImage=choose.GetComponent<Image>();
         chooseLabel.fontSize=20;
+        characterDescription=Label(info.transform,"",19,new Color(.80f,.84f,.9f),TextAnchor.UpperLeft);
+        var descriptionRect=characterDescription.rectTransform;
+        descriptionRect.anchorMin=descriptionRect.anchorMax=new Vector2(0,1);descriptionRect.pivot=new Vector2(0,1);
+        descriptionRect.anchoredPosition=new Vector2(24,-132);descriptionRect.sizeDelta=new Vector2(264,220);
+        characterDescription.lineSpacing=1.25f;
+        var field=RoundImage(characterPicker.transform,"Player name required",new Color(.055f,.065f,.09f),cardSprite,Image.Type.Sliced);
+        field.rectTransform.anchorMin=field.rectTransform.anchorMax=Vector2.zero;field.rectTransform.pivot=Vector2.zero;
+        field.rectTransform.anchoredPosition=new Vector2(28,44);field.rectTransform.sizeDelta=new Vector2(560,48);
+        playerNameInput=field.gameObject.AddComponent<InputField>();playerNameInput.targetGraphic=field;
+        var inputText=Label(field.transform,"",20,Color.white,TextAnchor.MiddleLeft);Stretch(inputText.rectTransform);
+        inputText.rectTransform.offsetMin=new Vector2(14,4);inputText.rectTransform.offsetMax=new Vector2(-14,-4);inputText.supportRichText=false;
+        var placeholder=Label(field.transform,"Имя для резюме *",20,new Color(.55f,.61f,.70f),TextAnchor.MiddleLeft);Stretch(placeholder.rectTransform);
+        placeholder.rectTransform.offsetMin=new Vector2(14,4);placeholder.rectTransform.offsetMax=new Vector2(-14,-4);
+        playerNameInput.textComponent=inputText;playerNameInput.placeholder=placeholder;playerNameInput.characterLimit=32;
+        playerNameInput.lineType=InputField.LineType.SingleLine;
+        playerNameInput.customCaretColor=true;playerNameInput.caretColor=new Color(.6f,.85f,1f);
+        playerNameInput.caretWidth=3;playerNameInput.caretBlinkRate=1.2f;
+        playerNameInput.selectionColor=new Color(.25f,.5f,1f,.45f);
+        playerNameInput.text=string.IsNullOrWhiteSpace(PlayerName)?FunnyNames[Random.Range(0,FunnyNames.Length)]:PlayerName;
+        var editHint=Label(characterPicker.transform,"ИМЯ ДЛЯ РЕЗЮМЕ  ·  нажмите и напишите своё",14,new Color(.70f,.78f,.90f),TextAnchor.MiddleLeft);
+        editHint.rectTransform.anchorMin=editHint.rectTransform.anchorMax=Vector2.zero;editHint.rectTransform.pivot=Vector2.zero;
+        editHint.rectTransform.anchoredPosition=new Vector2(28,102);editHint.rectTransform.sizeDelta=new Vector2(700,24);
+        playerNameInput.onValueChanged.AddListener(_=>{if(nameValidation!=null){nameValidation.text="Можно изменить имя · до 32 символов";nameValidation.color=new Color(.65f,.71f,.8f);}RefreshPickerChrome();});
+        nameValidation=Label(characterPicker.transform,"Можно изменить имя · до 32 символов",14,new Color(.65f,.71f,.8f),TextAnchor.MiddleLeft);
+        nameValidation.rectTransform.anchorMin=nameValidation.rectTransform.anchorMax=Vector2.zero;nameValidation.rectTransform.pivot=Vector2.zero;
+        nameValidation.rectTransform.anchoredPosition=new Vector2(28,18);nameValidation.rectTransform.sizeDelta=new Vector2(760,22);
         characterPicker.SetActive(false);
+    }
+
+    System.Collections.IEnumerator FocusPlayerName()
+    {
+        yield return null;
+        if(playerNameInput==null || characterPicker==null || !characterPicker.activeInHierarchy)yield break;
+        playerNameInput.ActivateInputField();
+        playerNameInput.caretPosition=playerNameInput.text.Length;
+        playerNameInput.selectionAnchorPosition=playerNameInput.text.Length;
+        playerNameInput.selectionFocusPosition=playerNameInput.text.Length;
+    }
+
+    void RestorePlayerProfile()
+    {
+        if(controller==null || characters==null)return;
+        string saved=PlayerPrefs.GetString(CharacterKey, "");
+        if(string.IsNullOrWhiteSpace(PlayerName)||string.IsNullOrEmpty(saved))return;
+        for(int i=0;i<characters.Length;i++)if(characters[i]!=null&&characters[i].name==saved)
+        {characterIndex=i;controller.EquipCharacter(characters[i]);break;}
     }
 
     void ClosePicker()
@@ -719,11 +790,13 @@ public sealed class LaptopDesktop : MonoBehaviour
         GameObject prefab=null;
         int count=characters==null?0:characters.Length;
         if(count>0) prefab=characters[(characterIndex%count+count)%count];
-        if(characterName!=null) characterName.text=prefab==null?"Нет персонажей":CharacterTitle(prefab);
+        if(characterName!=null) characterName.text=prefab==null?"Нет персонажей":(characterIndex<CharacterNames.Length?CharacterNames[characterIndex]:CharacterTitle(prefab));
         if(characterPose!=null) characterPose.text=prefab==null?"":PreviewCaption[characterIndex%PreviewCaption.Length];
+        if(characterDescription!=null)characterDescription.text=prefab!=null&&characterIndex<CharacterDescriptions.Length?CharacterDescriptions[characterIndex]:"";
         bool equipped=prefab!=null && controller!=null && controller.humanoidAnimator!=null && controller.humanoidAnimator.gameObject.name.StartsWith(prefab.name);
-        if(chooseLabel!=null) chooseLabel.text=equipped?"Выбран":"Выбрать";
-        if(chooseImage!=null) chooseImage.color=equipped?new Color(.15f,.46f,.34f):new Color(.23f,.47f,.98f);
+        bool profileSaved=equipped && playerNameInput!=null && !string.IsNullOrWhiteSpace(playerNameInput.text) && playerNameInput.text.Trim()==PlayerName;
+        if(chooseLabel!=null) chooseLabel.text=profileSaved?"Выбран":equipped?"Сохранить":"Выбрать";
+        if(chooseImage!=null) chooseImage.color=profileSaved?new Color(.15f,.46f,.34f):new Color(.23f,.47f,.98f);
         if(pageDots==null) return;
         for(int i=0;i<pageDots.Length;i++)
         {
@@ -826,8 +899,18 @@ public sealed class LaptopDesktop : MonoBehaviour
     void ChooseCharacter()
     {
         if(controller==null || characters==null || characters.Length==0) return;
+        string entered=playerNameInput==null?"":playerNameInput.text.Trim();
+        if(string.IsNullOrWhiteSpace(entered))
+        {
+            nameValidation.text="Как к вам обращаться? Введите имя, чтобы выбрать персонажа.";
+            nameValidation.color=new Color(1,.59f,.47f);playerNameInput.ActivateInputField();return;
+        }
         var prefab=characters[characterIndex];
+        if(prefab==null)return;
         controller.EquipCharacter(prefab);
+        playerNameInput.SetTextWithoutNotify(entered);
+        PlayerPrefs.SetString(NameKey,entered);PlayerPrefs.SetString(CharacterKey,prefab.name);PlayerPrefs.Save();
+        nameValidation.color=new Color(.58f,.9f,.72f);nameValidation.text="Сохранено: "+entered+" · "+CharacterNames[characterIndex];
         RefreshPickerChrome();
     }
 
