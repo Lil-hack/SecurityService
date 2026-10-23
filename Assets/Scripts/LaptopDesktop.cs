@@ -19,7 +19,11 @@ public sealed class LaptopDesktop : MonoBehaviour
     const int PreviewLayer=6;
     static readonly string[] AppNames={"Мой компьютер","Блокнот","Выбрать персонажа"};
     static readonly string[] AppEmoji={"LaptopEmoji/computer","LaptopEmoji/notepad","LaptopEmoji/character"};
-    static readonly string[] AppNotes={"Этот компьютер.","Заметок пока нет.",""};
+    static readonly string[] AppNotes={"Этот компьютер.",
+        "<size=25><b>ПАМЯТКА БУДУЩЕМУ КОЛЛЕГЕ</b></size>\n<color=#8C7355>Отдел кадров · инструкция по появлению в штате</color>\n\n"+
+        "<b>01  Выберите персонажа</b>\nОткройте «Выбрать персонажа» и найдите своего героя.\nЖелательно того, кто выглядит готовым к понедельнику.\nНажмите «Выбрать»: красивое лицо — уже полрезюме.\n\n"+
+        "<b>02  Введите своё имя для резюме</b>\nПора представиться! Укажите своё имя при заполнении\nрезюме. «Повелитель дедлайнов» — звучно, но кадровик\nвсё-таки ждёт имя, а не название финального босса.\n\n"+
+        "<b>03  Проверьте результат</b>\nПерсонаж выбран, имя введено? Отлично, вы великолепны.\nОсталось убедить работодателя. Кофе мы уже поставили.\n\n<color=#8C7355>Служебная заметка: опыт спасения мира можно указать\nв разделе «Работа в стрессовых ситуациях».</color>",""};
     static readonly Color[] AppColors={new Color(.95f,.55f,.15f),new Color(.95f,.85f,.25f),new Color(.25f,.55f,.95f)};
     static readonly float[] PreviewSpeed={0f,2.2f,4.2f,0f};
     static readonly float[] PreviewVertical={0f,0f,0f,4f};
@@ -298,6 +302,7 @@ public sealed class LaptopDesktop : MonoBehaviour
 
     void BuildDesktop()
     {
+        EnsureUiSprites();
         font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         if(font==null) font=Font.CreateDynamicFontFromOSFont("Arial",16);
         EnsureEventSystem();
@@ -328,12 +333,12 @@ public sealed class LaptopDesktop : MonoBehaviour
         {
             int index=i;
             var emoji=string.IsNullOrEmpty(AppEmoji[i])?null:Resources.Load<Texture2D>(AppEmoji[i]);
-            CreateIcon(desktopRoot.transform,AppNames[i],AppColors[i],emoji,new Vector2(18,-12-i*85),()=>ShowApp(index));
+            CreateIcon(desktopRoot.transform,AppNames[i],AppColors[i],emoji,new Vector2(24,-24-i*116),()=>ShowApp(index));
         }
         appWindow=CreateWindow(desktopRoot.transform,"App",new Vector2(0,20),new Vector2(560,340),true,out appTitle,out appBody);
         appWindow.SetActive(false);
         BuildCharacterPicker();
-        cameraWindow=CreateWindow(desktopRoot.transform,"Camera",new Vector2(-20,-20),new Vector2(500,320),false,out _,out _);
+        cameraWindow=CreateWindow(desktopRoot.transform,"Камера · Прямой эфир",new Vector2(-20,-20),new Vector2(500,340),false,out _,out _);
         var cameraRect=cameraWindow.GetComponent<RectTransform>();
         cameraRect.anchorMin=cameraRect.anchorMax=new Vector2(1,1);
         cameraRect.pivot=new Vector2(1,1);
@@ -342,24 +347,32 @@ public sealed class LaptopDesktop : MonoBehaviour
         feedObject.transform.SetParent(cameraWindow.transform,false);
         var feedRect=feedObject.AddComponent<RectTransform>();
         feedRect.anchorMin=Vector2.zero; feedRect.anchorMax=Vector2.one;
-        feedRect.offsetMin=new Vector2(10,10); feedRect.offsetMax=new Vector2(-10,-42);
+        feedRect.offsetMin=new Vector2(12,38); feedRect.offsetMax=new Vector2(-12,-54);
         var feed=feedObject.AddComponent<RawImage>();
         feed.texture=roomTexture;
         feed.raycastTarget=false;
+        var live=Label(cameraWindow.transform,"● LIVE     Встроенная камера",13,new Color(.4f,.9f,.72f),TextAnchor.MiddleLeft);
+        live.rectTransform.anchorMin=live.rectTransform.anchorMax=Vector2.zero;
+        live.rectTransform.pivot=Vector2.zero;live.rectTransform.anchoredPosition=new Vector2(16,6);live.rectTransform.sizeDelta=new Vector2(460,28);
+
+        CreateIcon(desktopRoot.transform,"Корзина · Выход",new Color(.28f,.58f,.67f),null,Vector2.zero,BeginExit);
+        var trash=desktopRoot.transform.Find("Корзина · Выход").GetComponent<RectTransform>();
+        trash.anchorMin=trash.anchorMax=new Vector2(1,0);trash.pivot=new Vector2(1,0);trash.anchoredPosition=new Vector2(-24,82);
 
         BuildTaskbar();
     }
 
     void BuildTaskbar()
     {
-        var bar=ImagePanel(desktopRoot.transform,"Taskbar",new Color(.09f,.09f,.1f,.96f));
+        var bar=ImagePanel(desktopRoot.transform,"Taskbar",new Color(.045f,.07f,.12f,.96f));
         taskbar=bar.gameObject;
         var barRect=bar.rectTransform;
         barRect.anchorMin=new Vector2(0,0); barRect.anchorMax=new Vector2(1,0);
         barRect.pivot=new Vector2(.5f,0);
-        barRect.sizeDelta=new Vector2(0,48); barRect.anchoredPosition=Vector2.zero;
+        barRect.sizeDelta=new Vector2(0,64); barRect.anchoredPosition=Vector2.zero;
+        TaskPiece(bar.transform,"Top highlight",new Color(.4f,.65f,.9f,.4f),new Vector2(.5f,1),new Vector2(.5f,1),Vector2.zero,new Vector2(1600,1));
 
-        var start=ImagePanel(bar.transform,"Start",new Color(.22f,.47f,.86f));
+        var start=RoundImage(bar.transform,"Start",new Color(.2f,.43f,.8f),cardSprite,Image.Type.Sliced);
         var startRect=start.rectTransform;
         startRect.anchorMin=startRect.anchorMax=new Vector2(0,.5f);
         startRect.pivot=new Vector2(0,.5f);
@@ -371,7 +384,7 @@ public sealed class LaptopDesktop : MonoBehaviour
         var startLabel=Label(start.transform,"Пуск",18,Color.white,TextAnchor.MiddleCenter);
         Stretch(startLabel.rectTransform);
 
-        var search=TaskPiece(bar.transform,"Search",new Color(.2f,.2f,.22f),new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(98,0),new Vector2(210,32));
+        var search=TaskPiece(bar.transform,"Search",new Color(.13f,.17f,.24f),new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(98,0),new Vector2(210,36));
         var searchLabel=Label(search,"Поиск",16,new Color(.75f,.78f,.82f),TextAnchor.MiddleLeft);
         Stretch(searchLabel.rectTransform);
         searchLabel.rectTransform.offsetMin=new Vector2(14,0);
@@ -381,32 +394,32 @@ public sealed class LaptopDesktop : MonoBehaviour
         {
             var pin=TaskPiece(bar.transform,AppNames[i],AppColors[i],new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(pinX,0),new Vector2(28,28));
             var emoji=string.IsNullOrEmpty(AppEmoji[i])?null:Resources.Load<Texture2D>(AppEmoji[i]);
-            if(emoji!=null) Emoji(pin,emoji,2f);
-            else
-            {
-                var mark=Label(pin,AppNames[i].Substring(0,1),14,Color.white,TextAnchor.MiddleCenter);
-                Stretch(mark.rectTransform);
-            }
+            DrawAppIcon(pin,i,AppColors[i],28);
+            pin.GetComponent<Image>().color=Color.clear;
+            pin.GetComponent<Image>().raycastTarget=true;
+            int app=i;var pinButton=pin.gameObject.AddComponent<Button>();pinButton.onClick.AddListener(()=>ShowApp(app));
             pinX+=34f;
         }
 
         float windowX=pinX+12f;
-        var cameraSlot=TaskPiece(bar.transform,"Camera task",new Color(.2f,.24f,.3f),new Vector2(0,0),new Vector2(0,0),new Vector2(windowX,0),new Vector2(150,48));
-        TaskPiece(cameraSlot,"Mark",new Color(.35f,.7f,.95f),new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(10,0),new Vector2(8,18));
-        var cameraLabel=Label(cameraSlot,"Camera",15,Color.white,TextAnchor.MiddleLeft);
+        var cameraSlot=TaskButton(bar.transform,"Camera task",windowX,156,new Color(.35f,.7f,.95f),()=>{cameraWindow.transform.SetAsLastSibling();taskbar.transform.SetAsLastSibling();});
+        var cameraBadge=TaskPiece(cameraSlot,"Camera badge",new Color(.22f,.45f,.65f),new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(10,0),new Vector2(28,28));
+        var cameraGlyph=Label(cameraBadge,"●",20,Color.white,TextAnchor.MiddleCenter);Stretch(cameraGlyph.rectTransform);
+        var cameraLabel=Label(cameraSlot,"Камера",15,Color.white,TextAnchor.MiddleLeft);
         Stretch(cameraLabel.rectTransform);
-        cameraLabel.rectTransform.offsetMin=new Vector2(26,0);
+        cameraLabel.rectTransform.offsetMin=new Vector2(48,0);
 
-        openAppSlot=TaskPiece(bar.transform,"Open app",new Color(.2f,.24f,.3f),new Vector2(0,0),new Vector2(0,0),new Vector2(windowX+156f,0),new Vector2(210,48)).gameObject;
-        TaskPiece(openAppSlot.transform,"Mark",new Color(.9f,.75f,.3f),new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(10,0),new Vector2(8,18));
+        openAppSlot=TaskButton(bar.transform,"Open app",windowX+166,232,new Color(.9f,.75f,.3f),()=>{var active=characterPicker.activeSelf?characterPicker:appWindow;active.SetActive(true);active.transform.SetAsLastSibling();taskbar.transform.SetAsLastSibling();}).gameObject;
+        var appBadge=TaskPiece(openAppSlot.transform,"App badge",Color.clear,new Vector2(0,.5f),new Vector2(0,.5f),new Vector2(10,0),new Vector2(28,28));
+        DrawAppIcon(appBadge,0,AppColors[0],28);
         openAppLabel=Label(openAppSlot.transform,"",15,Color.white,TextAnchor.MiddleLeft);
         Stretch(openAppLabel.rectTransform);
-        openAppLabel.rectTransform.offsetMin=new Vector2(26,0);
+        openAppLabel.rectTransform.offsetMin=new Vector2(48,0);
         openAppLabel.rectTransform.offsetMax=new Vector2(-8,0);
         openAppSlot.SetActive(false);
 
-        for(int i=0;i<3;i++)
-            TaskPiece(bar.transform,"Tray icon",new Color(.78f,.8f,.84f),new Vector2(1,.5f),new Vector2(1,.5f),new Vector2(-108-i*22,0),new Vector2(16,16));
+        var status=Label(bar.transform,"●  Онлайн",13,new Color(.5f,.85f,.72f),TextAnchor.MiddleRight);
+        status.rectTransform.anchorMin=status.rectTransform.anchorMax=new Vector2(1,.5f);status.rectTransform.pivot=new Vector2(1,.5f);status.rectTransform.anchoredPosition=new Vector2(-118,0);status.rectTransform.sizeDelta=new Vector2(110,30);
         var clock=TaskPiece(bar.transform,"Clock",new Color(0,0,0,0),new Vector2(1,.5f),new Vector2(1,.5f),new Vector2(-8,0),new Vector2(92,40));
         clockLabel=Label(clock,"00:00",15,Color.white,TextAnchor.UpperCenter);
         Stretch(clockLabel.rectTransform);
@@ -416,36 +429,26 @@ public sealed class LaptopDesktop : MonoBehaviour
         dateLabel.rectTransform.offsetMin=new Vector2(0,4);
         RefreshClock();
 
-        startMenu=ImagePanel(bar.transform,"Start menu",new Color(.16f,.17f,.2f,.98f)).gameObject;
+        startMenu=RoundImage(bar.transform,"Start menu",new Color(.07f,.1f,.16f,.98f),cardSprite,Image.Type.Sliced).gameObject;
+        var menuShadow=startMenu.AddComponent<Shadow>();menuShadow.effectDistance=new Vector2(3,-5);menuShadow.effectColor=new Color(0,0,0,.4f);
         var menuRect=startMenu.GetComponent<RectTransform>();
         menuRect.anchorMin=menuRect.anchorMax=new Vector2(0,0);
         menuRect.pivot=new Vector2(0,0);
-        menuRect.anchoredPosition=new Vector2(6,52);
-        menuRect.sizeDelta=new Vector2(210,64);
-        var exit=ImagePanel(startMenu.transform,"Exit",new Color(.7f,.22f,.2f));
+        menuRect.anchoredPosition=new Vector2(6,70);
+        menuRect.sizeDelta=new Vector2(270,84);
+        var exit=RoundImage(startMenu.transform,"Exit",new Color(.25f,.13f,.19f),cardSprite,Image.Type.Sliced);
         var exitRect=exit.rectTransform;
         exitRect.anchorMin=Vector2.zero; exitRect.anchorMax=Vector2.one;
         exitRect.offsetMin=new Vector2(8,8); exitRect.offsetMax=new Vector2(-8,-8);
         var exitButton=exit.gameObject.AddComponent<Button>();
         exitButton.targetGraphic=exit;
         exitButton.onClick.AddListener(BeginExit);
-        var exitEmoji=Resources.Load<Texture2D>("LaptopEmoji/exit");
-        if(exitEmoji!=null)
-        {
-            var icon=new GameObject("Emoji");
-            icon.transform.SetParent(exit.transform,false);
-            var iconRect=icon.AddComponent<RectTransform>();
-            iconRect.anchorMin=iconRect.anchorMax=new Vector2(0,.5f);
-            iconRect.pivot=new Vector2(0,.5f);
-            iconRect.anchoredPosition=new Vector2(14,0);
-            iconRect.sizeDelta=new Vector2(28,28);
-            var raw=icon.AddComponent<RawImage>();
-            raw.texture=exitEmoji;
-            raw.raycastTarget=false;
-        }
-        var exitLabel=Label(exit.transform,"Выйти",18,Color.white,exitEmoji!=null?TextAnchor.MiddleLeft:TextAnchor.MiddleCenter);
+        var power=RoundImage(exit.transform,"Power badge",new Color(.85f,.32f,.38f),circleSprite,Image.Type.Simple);
+        power.raycastTarget=false;power.rectTransform.anchorMin=power.rectTransform.anchorMax=new Vector2(0,.5f);power.rectTransform.anchoredPosition=new Vector2(32,0);power.rectTransform.sizeDelta=new Vector2(36,36);
+        var powerLabel=Label(power.transform,"↪",24,Color.white,TextAnchor.MiddleCenter);Stretch(powerLabel.rectTransform);
+        var exitLabel=Label(exit.transform,"<b>Выйти</b>\n<size=12><color=#D7B7C1>Вернуться в офис</color></size>",18,Color.white,TextAnchor.MiddleLeft);
         Stretch(exitLabel.rectTransform);
-        if(exitEmoji!=null) exitLabel.rectTransform.offsetMin=new Vector2(48,0);
+        exitLabel.rectTransform.offsetMin=new Vector2(62,0);
         startMenu.SetActive(false);
     }
 
@@ -461,6 +464,16 @@ public sealed class LaptopDesktop : MonoBehaviour
         var now=System.DateTime.Now;
         clockLabel.text=now.ToString("HH:mm");
         if(dateLabel!=null) dateLabel.text=now.ToString("dd.MM.yyyy");
+    }
+
+    RectTransform TaskButton(Transform parent,string name,float x,float width,Color accent,UnityEngine.Events.UnityAction click)
+    {
+        var image=RoundImage(parent,name,new Color(.13f,.18f,.26f),cardSprite,Image.Type.Sliced);
+        var rect=image.rectTransform;rect.anchorMin=rect.anchorMax=new Vector2(0,.5f);rect.pivot=new Vector2(0,.5f);rect.anchoredPosition=new Vector2(x,0);rect.sizeDelta=new Vector2(width,46);
+        var button=image.gameObject.AddComponent<Button>();button.targetGraphic=image;button.onClick.AddListener(click);
+        var colors=button.colors;colors.highlightedColor=new Color(.72f,.84f,1);colors.pressedColor=new Color(.5f,.7f,.95f);button.colors=colors;
+        TaskPiece(rect,"Active indicator",accent,new Vector2(.5f,0),new Vector2(.5f,0),new Vector2(0,2),new Vector2(28,3));
+        return rect;
     }
 
     static RectTransform TaskPiece(Transform parent,string name,Color color,Vector2 anchor,Vector2 pivot,Vector2 position,Vector2 size)
@@ -487,7 +500,19 @@ public sealed class LaptopDesktop : MonoBehaviour
                 appBody.gameObject.SetActive(true);
                 appBody.text=AppNotes[index];
                 var rect=appWindow.GetComponent<RectTransform>();
-                rect.sizeDelta=new Vector2(560,340);
+                rect.sizeDelta=index==1?new Vector2(680,620):new Vector2(560,340);
+                var paper=appWindow.transform.Find("Notepad paper");
+                if(paper==null)
+                {
+                    var sheet=RoundImage(appWindow.transform,"Notepad paper",new Color(.98f,.95f,.87f),cardSprite,Image.Type.Sliced);
+                    Stretch(sheet.rectTransform);sheet.rectTransform.offsetMin=new Vector2(12,12);sheet.rectTransform.offsetMax=new Vector2(-12,-56);sheet.raycastTarget=false;
+                    sheet.transform.SetSiblingIndex(appBody.transform.GetSiblingIndex());paper=sheet.transform;
+                }
+                paper.gameObject.SetActive(index==1);
+                appBody.fontSize=index==1?18:22;appBody.supportRichText=true;
+                appBody.color=index==1?new Color(.19f,.23f,.28f):new Color(.9f,.92f,.94f);
+                appBody.rectTransform.offsetMin=new Vector2(index==1?30:18,24);
+                appBody.rectTransform.offsetMax=new Vector2(index==1?-30:-18,-76);
                 rect.anchoredPosition=new Vector2(0,20);
                 appWindow.transform.SetAsLastSibling();
             }
@@ -506,6 +531,9 @@ public sealed class LaptopDesktop : MonoBehaviour
         {
             openAppSlot.SetActive(true);
             openAppLabel.text=AppNames[index];
+            var badge=openAppSlot.transform.Find("App badge");
+            foreach(Transform child in badge)Destroy(child.gameObject);
+            DrawAppIcon(badge,index,AppColors[index],28);
         }
         if(taskbar!=null) taskbar.transform.SetAsLastSibling();
     }
@@ -560,6 +588,9 @@ public sealed class LaptopDesktop : MonoBehaviour
         headerRect.pivot=new Vector2(.5f,1);
         headerRect.sizeDelta=new Vector2(-108,48);
         headerRect.anchoredPosition=new Vector2(-8,-6);
+        var dragSurface=ImagePanel(characterPicker.transform,"Drag title bar",Color.clear);
+        var dragRect=dragSurface.rectTransform;dragRect.anchorMin=new Vector2(0,1);dragRect.anchorMax=Vector2.one;dragRect.pivot=new Vector2(.5f,1);dragRect.sizeDelta=new Vector2(-76,52);dragRect.anchoredPosition=new Vector2(-30,0);
+        dragSurface.gameObject.AddComponent<LaptopWindowDrag>().target=picker;
         var close=RoundButton(characterPicker.transform,"×",new Color(1f,1f,1f,.1f),new Vector2(40,40),new Vector2(1,1),new Vector2(1,1),ClosePicker,out var closeLabel);
         close.anchoredPosition=new Vector2(-16,-12);
         closeLabel.fontSize=24;
@@ -898,34 +929,42 @@ public sealed class LaptopDesktop : MonoBehaviour
 
     void CreateIcon(Transform parent,string label,Color color,Texture2D emoji,Vector2 position,UnityEngine.Events.UnityAction click)
     {
-        var button=ImagePanel(parent,label,color);
+        var button=RoundImage(parent,label,new Color(.045f,.08f,.14f,.32f),cardSprite,Image.Type.Sliced);
         var rect=button.GetComponent<RectTransform>();
         rect.anchorMin=rect.anchorMax=new Vector2(0,1);
         rect.pivot=new Vector2(0,1);
         rect.anchoredPosition=position;
-        rect.sizeDelta=new Vector2(108,82);
+        rect.sizeDelta=new Vector2(112,104);
         var uiButton=button.gameObject.AddComponent<Button>();
         uiButton.targetGraphic=button;
         uiButton.onClick.AddListener(click);
-        if(emoji!=null)
-        {
-            var icon=new GameObject("Emoji");
-            icon.transform.SetParent(button.transform,false);
-            var iconRect=icon.AddComponent<RectTransform>();
-            iconRect.anchorMin=iconRect.anchorMax=new Vector2(.5f,1);
-            iconRect.pivot=new Vector2(.5f,1);
-            iconRect.anchoredPosition=new Vector2(0,-4);
-            iconRect.sizeDelta=new Vector2(40,40);
-            var raw=icon.AddComponent<RawImage>();
-            raw.texture=emoji;
-            raw.raycastTarget=false;
-        }
-        var text=Label(button.transform,label,emoji!=null?13:15,Color.white,TextAnchor.LowerCenter);
+        int iconKind=System.Array.IndexOf(AppNames,label);
+        DrawAppIcon(button.transform,iconKind<0?3:iconKind,color,58);
+        var colors=uiButton.colors;colors.highlightedColor=new Color(.65f,.85f,1f);colors.pressedColor=new Color(.4f,.65f,.9f);uiButton.colors=colors;
+        var text=Label(button.transform,label,14,Color.white,TextAnchor.LowerCenter);
         Stretch(text.rectTransform);
         text.rectTransform.offsetMin=new Vector2(4,4);
-        text.rectTransform.offsetMax=new Vector2(-4,emoji!=null?-44:-4);
+        text.rectTransform.offsetMax=new Vector2(-4,-66);
+        var textShadow=text.gameObject.AddComponent<Shadow>();textShadow.effectColor=new Color(0,0,0,.75f);textShadow.effectDistance=new Vector2(1,-1);
         text.horizontalOverflow=HorizontalWrapMode.Wrap;
         text.raycastTarget=false;
+    }
+
+    void DrawAppIcon(Transform parent,int kind,Color accent,float size)
+    {
+        var tile=RoundImage(parent,"App icon",accent,cardSprite,Image.Type.Sliced);tile.raycastTarget=false;
+        var r=tile.rectTransform;r.anchorMin=r.anchorMax=new Vector2(.5f,.5f);r.sizeDelta=new Vector2(64,64);r.anchoredPosition=new Vector2(0,size>40?16:0);r.localScale=Vector3.one*(size/64);
+        void Box(string name,float x,float y,float w,float h,Color c)
+        {var p=ImagePanel(r,name,c);p.raycastTarget=false;p.rectTransform.anchorMin=p.rectTransform.anchorMax=new Vector2(.5f,.5f);p.rectTransform.anchoredPosition=new Vector2(x,y);p.rectTransform.sizeDelta=new Vector2(w,h);}
+        var white=new Color(.94f,.97f,1);var dark=new Color(.08f,.18f,.3f);
+        if(kind==0)
+        {Box("Display frame",0,5,44,30,dark);Box("Glass display",0,6,36,22,new Color(.35f,.82f,1));Box("Screen reflection",-8,11,14,3,white);Box("Stand",0,-14,5,10,white);Box("Base",0,-20,28,4,white);}
+        else if(kind==1)
+        {Box("Notebook shadow",2,-2,35,44,dark);Box("Paper",0,1,34,44,white);Box("Binding",-12,1,5,44,new Color(.95f,.57f,.23f));for(int i=0;i<4;i++)Box("Ruled line",3,12-i*8,19,2,new Color(.35f,.5f,.65f));}
+        else if(kind==2)
+        {var head=RoundImage(r,"Portrait",white,circleSprite,Image.Type.Simple);head.raycastTarget=false;head.rectTransform.sizeDelta=new Vector2(21,21);head.rectTransform.anchoredPosition=new Vector2(0,10);Box("Shoulders",0,-14,34,21,white);Box("Shirt",0,-17,14,15,new Color(.23f,.33f,.68f));}
+        else
+        {Box("Bin body",0,-3,30,33,white);Box("Bin rim",0,16,38,5,white);Box("Handle",0,22,16,5,white);for(int i=0;i<3;i++)Box("Bin groove",-8+i*8,-3,3,22,accent);}
     }
 
     static void Emoji(Transform parent,Texture2D texture,float pad)
@@ -943,38 +982,40 @@ public sealed class LaptopDesktop : MonoBehaviour
 
     GameObject CreateWindow(Transform parent,string title,Vector2 position,Vector2 size,bool closable,out Text titleText,out Text bodyText)
     {
-        var window=ImagePanel(parent,title+" window",new Color(.12f,.14f,.18f,.96f));
+        var window=RoundImage(parent,title+" window",new Color(.055f,.075f,.12f,.98f),cardSprite,Image.Type.Sliced);
+        var shadow=window.gameObject.AddComponent<Shadow>();shadow.effectColor=new Color(0,0,0,.45f);shadow.effectDistance=new Vector2(5,-8);
         var rect=window.GetComponent<RectTransform>();
         rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);
         rect.pivot=new Vector2(.5f,.5f);
         rect.anchoredPosition=position;
         rect.sizeDelta=size;
-        var header=ImagePanel(window.transform,"Header",new Color(.2f,.24f,.3f,1));
+        var header=RoundImage(window.transform,"Header",new Color(.12f,.17f,.25f),cardSprite,Image.Type.Sliced);
+        header.gameObject.AddComponent<LaptopWindowDrag>().target=rect;
         var headerRect=header.GetComponent<RectTransform>();
         headerRect.anchorMin=new Vector2(0,1); headerRect.anchorMax=new Vector2(1,1);
         headerRect.pivot=new Vector2(.5f,1);
-        headerRect.sizeDelta=new Vector2(0,36); headerRect.anchoredPosition=Vector2.zero;
-        titleText=Label(header.transform,title,20,Color.white,TextAnchor.MiddleLeft);
+        headerRect.sizeDelta=new Vector2(-8,44); headerRect.anchoredPosition=new Vector2(0,-4);
+        titleText=Label(header.transform,title,17,Color.white,TextAnchor.MiddleLeft);
         Stretch(titleText.rectTransform);
         titleText.rectTransform.offsetMin=new Vector2(12,0);
         titleText.rectTransform.offsetMax=new Vector2(closable?-92:-12,0);
         bodyText=Label(window.transform,"",22,new Color(.9f,.92f,.94f),TextAnchor.UpperLeft);
         Stretch(bodyText.rectTransform);
         bodyText.rectTransform.offsetMin=new Vector2(18,16);
-        bodyText.rectTransform.offsetMax=new Vector2(-18,-48);
+        bodyText.rectTransform.offsetMax=new Vector2(-18,-64);
         if(closable)
         {
-            var close=ImagePanel(header.transform,"Close",new Color(.7f,.22f,.2f));
+            var close=RoundImage(header.transform,"Close",new Color(.8f,.28f,.32f),cardSprite,Image.Type.Sliced);
             var closeRect=close.GetComponent<RectTransform>();
             closeRect.anchorMin=closeRect.anchorMax=new Vector2(1,.5f);
             closeRect.pivot=new Vector2(1,.5f);
             closeRect.anchoredPosition=new Vector2(-8,0);
-            closeRect.sizeDelta=new Vector2(76,26);
+            closeRect.sizeDelta=new Vector2(32,30);
             var closeButton=close.gameObject.AddComponent<Button>();
             closeButton.targetGraphic=close;
             var windowObject=window.gameObject;
             closeButton.onClick.AddListener(()=>{ windowObject.SetActive(false); if(openAppSlot!=null && windowObject==appWindow) openAppSlot.SetActive(false); });
-            var closeLabel=Label(close.transform,"Закрыть",14,Color.white,TextAnchor.MiddleCenter);
+            var closeLabel=Label(close.transform,"×",22,Color.white,TextAnchor.MiddleCenter);
             Stretch(closeLabel.rectTransform);
             closeLabel.raycastTarget=false;
         }

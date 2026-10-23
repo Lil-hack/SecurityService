@@ -7,6 +7,16 @@ public class OfficePushableProp : MonoBehaviour
     Rigidbody body;
     bool held;
     public bool allowPickup=true;
+    public bool keepInitialPoseUntilGrab;
+    bool initialPoseReleased;
+    public bool InitialPosePinned => keepInitialPoseUntilGrab && !initialPoseReleased;
+    public Vector3 InitialPosition { get; private set; }
+    public Quaternion InitialRotation { get; private set; }
+    void Awake()
+    {
+        InitialPosition=transform.position;InitialRotation=transform.rotation;
+        if(InitialPosePinned){Body.collisionDetectionMode=CollisionDetectionMode.ContinuousSpeculative;Body.isKinematic=true;}
+    }
     public OfficePropGrabber PlayerHolder { get; private set; }
     public Rigidbody Body { get { if(body==null) body=GetComponent<Rigidbody>(); return body; } }
     readonly List<Collider[]> ignoredPairs=new List<Collider[]>();
@@ -31,7 +41,7 @@ public class OfficePushableProp : MonoBehaviour
         get
         {
             return allowPickup && isActiveAndEnabled && !held && PlayerHolder==null &&
-                !Body.isKinematic && Body.constraints!=RigidbodyConstraints.FreezeAll;
+                (!Body.isKinematic || InitialPosePinned) && Body.constraints!=RigidbodyConstraints.FreezeAll;
         }
     }
 
@@ -39,8 +49,9 @@ public class OfficePushableProp : MonoBehaviour
     {
         if(holder==null || !CanPickUp) return false;
         RestorePlayerCollisions();
-        previousGravity=Body.useGravity; previousCollisionMode=Body.collisionDetectionMode;
-        Body.linearVelocity=Vector3.zero; Body.angularVelocity=Vector3.zero;
+        previousGravity=Body.useGravity; previousCollisionMode=InitialPosePinned?CollisionDetectionMode.ContinuousDynamic:Body.collisionDetectionMode;
+        initialPoseReleased=true;
+        if(!Body.isKinematic){Body.linearVelocity=Vector3.zero; Body.angularVelocity=Vector3.zero;}
         Body.collisionDetectionMode=CollisionDetectionMode.ContinuousSpeculative;
         Body.isKinematic=true; Body.useGravity=false;
         PlayerHolder=holder;
@@ -54,6 +65,26 @@ public class OfficePushableProp : MonoBehaviour
         return true;
     }
 
+    public bool ApplyPunchImpulse(Vector3 point,Vector3 impulse)
+    {
+        if(!allowPickup || held || PlayerHolder!=null || !isActiveAndEnabled || (Body.isKinematic && !InitialPosePinned))return false;
+        initialPoseReleased=true;Body.isKinematic=false;Body.useGravity=true;
+        Body.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
+        Body.AddForceAtPosition(impulse,point,ForceMode.Impulse);Body.WakeUp();npcBlockedUntil=Time.time+1;
+        return true;
+    }
+
+    float thrownUntil;
+    Vector3 thrownVelocity;
+    void OnCollisionEnter(Collision collision)
+    {
+        if(Time.time>thrownUntil || PlayerHolder!=null || collision.contactCount==0)return;
+        var npc=collision.collider.GetComponentInParent<OfficeStaffPhysics>();
+        if(npc==null || collision.relativeVelocity.magnitude<1.5f)return;
+        if(npc.ThrownImpact(collision.GetContact(0).point,thrownVelocity,Body.mass))
+        {thrownUntil=0;OfficePunchImpact.Spawn(collision.GetContact(0).point,-thrownVelocity.normalized);}
+    }
+
     public void ReleaseFromPlayer(OfficePropGrabber holder,Vector3 velocity,Vector3 spin)
     {
         if(PlayerHolder!=holder || holder==null) return;
@@ -61,6 +92,7 @@ public class OfficePushableProp : MonoBehaviour
         Body.isKinematic=false; Body.useGravity=previousGravity;
         Body.collisionDetectionMode=previousCollisionMode;
         Body.linearVelocity=velocity; Body.angularVelocity=spin;
+        thrownUntil=Time.time+5;thrownVelocity=velocity;
         Body.WakeUp(); npcBlockedUntil=Time.time+.5f;
     }
 

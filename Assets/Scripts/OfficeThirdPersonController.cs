@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(CharacterController),typeof(OfficePropGrabber))]
+[RequireComponent(typeof(CharacterController),typeof(OfficePropGrabber),typeof(OfficeFootstepDust))]
 public class OfficeThirdPersonController : MonoBehaviour
 {
     public Camera followCamera;
@@ -37,7 +37,7 @@ public class OfficeThirdPersonController : MonoBehaviour
 
     void Awake()
     {
-        motor=GetComponent<CharacterController>(); spawn=transform.position;
+        motor=GetComponent<CharacterController>(); spawn=transform.position; if(GetComponent<OfficeFootstepDust>()==null)gameObject.AddComponent<OfficeFootstepDust>();
         RefreshVisual();
         tutorialTime=Time.time+12;
     }
@@ -292,6 +292,8 @@ public class OfficeThirdPersonController : MonoBehaviour
     {
         if(LaptopDesktop.SessionActive) return;
         if(Time.time>tutorialTime && Cursor.lockState==CursorLockMode.Locked) return;
-        GUI.Box(new Rect(16,16,620,76),"WASD / стрелки — движение    Shift — бег    Пробел — прыжок\nМышь — обзор    Колесо — расстояние камеры    Esc — курсор\nF — взять / отпустить    Зажми ЛКМ — сила броска, отпусти — бросок");
+        GUI.Box(new Rect(16,16,660,96),"WASD / стрелки — движение    Shift — бег    Пробел — прыжок\nМышь — обзор    Колесо — расстояние камеры    Esc — курсор\nF — взять / отпустить    С предметом: зажми ЛКМ — сила броска\nБез предмета: ЛКМ — удар, удерживай — серия левой / правой");
     }
 }
+
+

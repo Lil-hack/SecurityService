@@ -7,8 +7,9 @@ public sealed class OfficeDoor : MonoBehaviour
     public BoxCollider leaf;
     public float interactionDistance=2.2f, degreesPerSecond=115;
     public bool startOpen;
+    public float openAngle;
     public bool IsOpen { get; private set; }
-    public bool IsMoving => Mathf.Abs(angle-(IsOpen?0:90))>.05f;
+    public bool IsMoving => Mathf.Abs(angle-(IsOpen?openAngle:90))>.05f;
     float angle=90;
     Rigidbody body;
     readonly Collider[] overlaps=new Collider[32];
@@ -34,7 +35,7 @@ public sealed class OfficeDoor : MonoBehaviour
     {
         IsOpen=open;
         if(!immediate)return;
-        angle=open?0:90;
+        angle=open?openAngle:90;
         transform.localRotation=Quaternion.Euler(0,angle,0);
         if(body==null)body=GetComponent<Rigidbody>();
         if(body!=null)body.rotation=transform.rotation;
@@ -47,7 +48,7 @@ public sealed class OfficeDoor : MonoBehaviour
     void FixedUpdate(){TickDoor(Time.fixedDeltaTime);}
     public void TickDoor(float dt)
     {
-        float next=Mathf.MoveTowards(angle,IsOpen?0:90,degreesPerSecond*Mathf.Max(0,dt));
+        float next=Mathf.MoveTowards(angle,IsOpen?openAngle:90,degreesPerSecond*Mathf.Max(0,dt));
         if(Mathf.Approximately(next,angle))return;
         // Reverse rather than pushing the player or a movable object into the jamb.
         if(Obstructed(next)){IsOpen=!IsOpen;return;}

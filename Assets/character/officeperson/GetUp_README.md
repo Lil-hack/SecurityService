@@ -1,0 +1,1 @@
+Two authored Humanoid get-up clips: front support and back sit-up, kneeling then standing. Based on the existing licensed Unity Standard idle pose. OfficeStaffPhysics blends the physical pose into the clip and controls pelvis height; no root translation to spawn.

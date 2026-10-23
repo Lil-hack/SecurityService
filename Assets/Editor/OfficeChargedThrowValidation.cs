@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public static class OfficeChargedThrowValidation
 {
+    [UnityEditor.MenuItem("Tools/Office/Validate Progressive Throw")]
+    public static void ValidateProgressiveThrow()=>Debug.Log(Run());
     public static string Run()
     {
         if(!Application.isPlaying) throw new InvalidOperationException("Enter Play mode first.");
@@ -21,6 +23,7 @@ public static class OfficeChargedThrowValidation
             controller.visualRoot.rotation=Quaternion.identity;
             controller.humanoidAnimator.Rebind(); controller.humanoidAnimator.Update(0);
             var grabber=player.GetComponent<OfficePropGrabber>(); grabber.enabled=false;
+            grabber.throwSpeed=3.3f;grabber.maximumThrowSpeed=11;grabber.throwChargeSeconds=2f;
             var cameraObject=new GameObject("Charge test camera"); SceneManager.MoveGameObjectToScene(cameraObject,scene);
             var camera=cameraObject.AddComponent<Camera>(); controller.followCamera=camera;
             camera.transform.position=new Vector3(20,1.7f,-2); camera.transform.rotation=Quaternion.LookRotation(new Vector3(0,.25f,1));
@@ -33,6 +36,19 @@ public static class OfficeChargedThrowValidation
             prop.Body.linearVelocity=Vector3.zero; Physics.SyncTransforms();
             if(!grabber.TryPickup(prop)) throw new Exception("Cannot pick up charge test mug.");
             float weakSpeed=grabber.GetThrowVelocity().magnitude;
+            var samples=new Vector3[241];float previousRange=-1,previousApex=-1;
+            foreach(float charge in new[]{0f,.25f,.5f,.75f,1f})
+            {
+                grabber.BeginThrowCharge();grabber.TickThrowCharge(grabber.throwChargeSeconds*charge);
+                int n=grabber.PredictThrow(samples,out var landing,out _);
+                float range=Vector3.ProjectOnPlane(landing-samples[0],Vector3.up).magnitude;
+                float apex=samples.Take(n).Max(p=>p.y)-samples[0].y;
+                if(charge==0 && (range>2 || apex>.08f))throw new Exception("Uncharged toss is not short and low.");
+                if(range<=previousRange || apex<previousApex)throw new Exception("Charge did not progressively increase range and height.");
+                if(Vector3.Distance(samples[0],prop.WorldBounds.center)>.001f)throw new Exception("Trajectory does not begin at the held object.");
+                previousRange=range;previousApex=apex;
+            }
+            grabber.CancelThrowCharge();
             if(!grabber.BeginThrowCharge() || !grabber.ThrowPreviewVisible) throw new Exception("Charge did not show trajectory.");
             grabber.TickThrowCharge(grabber.throwChargeSeconds*.5f);
             float middleSpeed=grabber.GetThrowVelocity().magnitude;
@@ -85,3 +101,4 @@ public static class OfficeChargedThrowValidation
         finally { SceneManager.UnloadSceneAsync(scene); }
     }
 }
+

@@ -14,6 +14,8 @@ public class TripoArmClearance : MonoBehaviour
 
     public void ApplyPose()
     {
+        var punching=GetComponentInParent<OfficePunchCombat>();
+        if(punching!=null && punching.IsPunching)return;
         if (animator == null)
         {
             animator = GetComponent<Animator>();

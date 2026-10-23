@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 [DefaultExecutionOrder(300),RequireComponent(typeof(CharacterController))]
 public class OfficePropGrabber : MonoBehaviour
 {
-    public float pickupReach=1.8f, throwSpeed=9f;
-    public float maximumThrowSpeed=18f, throwChargeSeconds=3f;
+    public float pickupReach=1.8f, throwSpeed=3.3f;
+    public float maximumThrowSpeed=11f, throwChargeSeconds=2f;
     public bool IsChargingThrow { get; private set; }
     public float ThrowCharge01 { get { return Mathf.Clamp01(chargeElapsed/Mathf.Max(.1f,throwChargeSeconds)); } }
     public bool ThrowPreviewVisible { get { return throwPreview!=null && throwPreview.Visible; } }
@@ -295,13 +295,13 @@ public class OfficePropGrabber : MonoBehaviour
     {
         if(HeldProp==null) return Vector3.zero;
         var forward=CarryYaw()*Vector3.forward;
-        float cameraElevation=View==null?0:Mathf.Asin(Mathf.Clamp(View.transform.forward.y,-1,1))*Mathf.Rad2Deg;
-        // Camera orbit never changes the character's throwing side. Elevation
-        // stays positive so the actual flight and its preview share a rising arc.
-        float elevation=Mathf.Clamp(42f+cameraElevation*.35f,32f,62f)*Mathf.Deg2Rad;
+        // A tap tosses just beyond the hands. Holding slowly raises both the arc
+        // and its range; camera pitch never turns a short forward toss into a lob.
+        float charge=Mathf.SmoothStep(0,1,ThrowCharge01);
+        float elevation=Mathf.Lerp(4f,42f,charge)*Mathf.Deg2Rad;
         var direction=forward*Mathf.Cos(elevation)+Vector3.up*Mathf.Sin(elevation);
-        float speed=Mathf.Lerp(throwSpeed,Mathf.Max(throwSpeed,maximumThrowSpeed),ThrowCharge01);
-        float inherited=Mathf.Clamp(Vector3.Dot(motor.velocity,forward),0,3)*.4f;
+        float speed=Mathf.Lerp(throwSpeed,Mathf.Max(throwSpeed,maximumThrowSpeed),charge);
+        float inherited=Mathf.Clamp(Vector3.Dot(motor.velocity,forward),0,3)*.2f*charge;
         return direction*speed+forward*inherited;
     }
 
@@ -363,3 +363,4 @@ public class OfficePropGrabber : MonoBehaviour
         OfficeThrowHud.Draw(HeldProp!=null,Target!=null,IsChargingThrow,ThrowCharge01);
     }
 }
+
