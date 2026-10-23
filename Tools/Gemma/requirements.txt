@@ -1,0 +1,2 @@
+litert-lm-api==0.18.0
+piper-tts==1.8.0

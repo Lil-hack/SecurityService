@@ -7,8 +7,6 @@
 /Models/
 /[Tt]ools/
 /OfficePreview/
-/Assets/_Recovery/
-/Assets/_Recovery.meta
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -17,6 +15,10 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
+
+# Unity scene recovery files
+/Assets/_Recovery/
+/Assets/_Recovery.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
