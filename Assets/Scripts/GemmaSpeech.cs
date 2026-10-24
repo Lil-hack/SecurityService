@@ -113,12 +113,16 @@ public sealed class GemmaSpeech : MonoBehaviour
     public bool Ready { get; private set; }
     public bool Synthesizing => requestActive || phrases.Count > 0;
     public bool Playing => source != null && source.isPlaying;
+    public float PlaybackLevel { get; private set; }
+    readonly float[] mouthSamples = new float[256];
     public bool HasPendingSpeech => streamOpen || Synthesizing || Playing || clips.Count > 0;
     public string Status { get; private set; } = "Озвучка выключена";
     public string LastText { get; private set; } = "";
     public float LastDuration { get; private set; }
     public float LastRms { get; private set; }
     public event Action<string> StatusChanged;
+    public event Action PlaybackStarted;
+    public event Action<string,string> TimingEvent;
 
     void SetStatus(string value) { Status = value; StatusChanged?.Invoke(value); }
 
@@ -142,9 +146,10 @@ public sealed class GemmaSpeech : MonoBehaviour
         telephoneLowPass.cutoffFrequency = 3400f;
         telephoneLowPass.lowpassResonanceQ = 1f;
         TelephoneEnabled = telephoneEnabled;
-        var listener = FindAnyObjectByType<AudioListener>();
-        if (listener == null || !listener.isActiveAndEnabled)
-            ownedListener = gameObject.AddComponent<AudioListener>();
+        bool hasListener = false;
+        foreach (var listener in FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude))
+            if (listener.isActiveAndEnabled) { hasListener = true; break; }
+        if (!hasListener) ownedListener = gameObject.AddComponent<AudioListener>();
         string model = Path.IsPathRooted(voicePath) ? voicePath : Path.Combine(projectRoot, voicePath);
         if (!File.Exists(model)) { SetStatus("Нет голоса Piper: скачайте Models/Piper (Tools/Piper/README.md)"); return; }
         if (!File.Exists(python)) { SetStatus("Не найден Python для Piper"); return; }
@@ -180,6 +185,7 @@ public sealed class GemmaSpeech : MonoBehaviour
                 if (activeGeneration != generation) return;
                 Ready = false; Cancel(); SetStatus("Piper завершён: " + diagnostics);
             });
+            TimingEvent?.Invoke("voice_worker_start", "");
             worker.Start(); worker.BeginOutputReadLine(); worker.BeginErrorReadLine();
             SetStatus("Загружаю голос " + Path.GetFileNameWithoutExtension(model) + "…");
         }
@@ -209,12 +215,19 @@ public sealed class GemmaSpeech : MonoBehaviour
         LastText = text; LastDuration = clip.length;
         source.clip = current;
         source.Play();
+        TimingEvent?.Invoke("prepared_audio_start",text);
         SetStatus("Персонаж говорит…");
     }
 
-    public void BeginStream()
+    public void BeginStream(bool preserveCurrentPlayback=false)
     {
-        Cancel();
+        if(preserveCurrentPlayback && Playing)
+        {
+            // Queue the real answer behind the short prepared thinking phrase.
+            ++requestId;streamOpen=requestActive=false;textBuffer.Clear();phrases.Clear();
+            while(clips.Count>0)Destroy(clips.Dequeue());
+        }
+        else Cancel();
         streamOpen = true;
         LastText = ""; LastDuration = 0; LastRms = 0;
     }
@@ -257,6 +270,7 @@ public sealed class GemmaSpeech : MonoBehaviour
             }) + "\n");
             worker.StandardInput.BaseStream.Write(bytes, 0, bytes.Length);
             worker.StandardInput.BaseStream.Flush();
+            TimingEvent?.Invoke("phrase_requested",phrase);
             requestActive = true;
             if (!Playing) SetStatus("Синтез речи…");
         }
@@ -269,7 +283,7 @@ public sealed class GemmaSpeech : MonoBehaviour
         {
             var reply = JsonUtility.FromJson<Reply>(json);
             if (reply == null) return;
-            if (reply.kind == "ready") { Ready = true; SetStatus("Голос: " + reply.text); SendNextPhrase(); return; }
+            if (reply.kind == "ready") { TimingEvent?.Invoke("voice_ready", "");Ready = true; SetStatus("Голос: " + reply.text); SendNextPhrase(); return; }
             if (reply.kind == "fatal") { Ready = false; Cancel(); SetStatus("Ошибка Piper: " + reply.text); return; }
             if (reply.id != requestId) return;
             if (reply.kind == "audio")
@@ -287,6 +301,7 @@ public sealed class GemmaSpeech : MonoBehaviour
                 if (samples.Length == 0) return;
                 var clip = AudioClip.Create("Нина Петровна — Piper", samples.Length / reply.channels, reply.channels, reply.sample_rate, false);
                 clip.SetData(samples, 0); clips.Enqueue(clip);
+                TimingEvent?.Invoke("pcm_ready",clip.length.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 LastDuration += clip.length;
                 LastRms = Mathf.Max(LastRms, (float)Math.Sqrt(energy / samples.Length));
             }
@@ -304,7 +319,7 @@ public sealed class GemmaSpeech : MonoBehaviour
 
     public void Cancel()
     {
-        ++requestId; streamOpen = requestActive = false;
+        ++requestId; streamOpen = requestActive = false; PlaybackLevel=0;
         textBuffer.Clear(); phrases.Clear();
         if (source != null) { source.Stop(); source.clip = null; }
         if (current != null) { Destroy(current); current = null; }
@@ -314,6 +329,14 @@ public sealed class GemmaSpeech : MonoBehaviour
 
     void Update()
     {
+        float level=0;
+        if(source!=null && source.isPlaying && source.clip!=null && source.clip.samples>256)
+        {
+            source.clip.GetData(mouthSamples,Mathf.Min(source.timeSamples,source.clip.samples-256));
+            double energy=0;foreach(float sample in mouthSamples)energy+=sample*sample;
+            level=Mathf.Clamp01((float)Math.Sqrt(energy/mouthSamples.Length)*8);
+        }
+        PlaybackLevel=Mathf.Lerp(PlaybackLevel,level,1-Mathf.Exp(-Time.unscaledDeltaTime*(level>PlaybackLevel?32:22)));
         while (pending.TryDequeue(out var action)) action();
         if (source != null)
         {
@@ -326,6 +349,7 @@ public sealed class GemmaSpeech : MonoBehaviour
         if (source == null || source.isPlaying) return;
         if (current != null)
         {
+            TimingEvent?.Invoke("audio_end", "");
             Destroy(current); current = null;
             if (clips.Count == 0 && !Synthesizing)
                 SetStatus(streamOpen ? "Жду продолжения ответа…" : "Озвучка завершена");
@@ -333,6 +357,8 @@ public sealed class GemmaSpeech : MonoBehaviour
         if (clips.Count > 0)
         {
             current = clips.Dequeue(); source.clip = current; source.Play();
+            TimingEvent?.Invoke("audio_start",current.length.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            PlaybackStarted?.Invoke();
             SetStatus("Нина Петровна говорит…");
         }
     }
@@ -351,10 +377,10 @@ public sealed class GemmaSpeech : MonoBehaviour
     void OnDisable()
     {
         Shutdown();
-        if (source != null) { source.enabled = false; Destroy(source); source = null; }
         if (raspFilter != null) { raspFilter.enabled = false; Destroy(raspFilter); raspFilter = null; }
         if (telephoneHighPass != null) { telephoneHighPass.enabled = false; Destroy(telephoneHighPass); telephoneHighPass = null; }
         if (telephoneLowPass != null) { telephoneLowPass.enabled = false; Destroy(telephoneLowPass); telephoneLowPass = null; }
+        if (source != null) { source.enabled = false; Destroy(source); source = null; }
         if (ownedListener != null) { ownedListener.enabled = false; Destroy(ownedListener); ownedListener = null; }
     }
 }

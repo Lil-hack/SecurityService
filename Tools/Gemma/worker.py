@@ -7,11 +7,13 @@ import contextlib
 import json
 import os
 import sys
+import time
 from trust_evaluator import evaluate
+from hiring_evaluator import evaluate_hiring
 
 
 def emit(kind, text='', **fields):
-    print(json.dumps(dict(kind=kind, text=text, **fields), ensure_ascii=True), flush=True)
+    print(json.dumps(dict(kind=kind, text=text, **fields), ensure_ascii=True), flush=True, file=sys.__stdout__)
 
 
 def main():
@@ -73,6 +75,19 @@ def main():
                     conversation = new_conversation(opening)
                     recent_dialogue[:] = [dict(role='character', text=opening[:1500])]
                     emit('opening_seeded')
+                elif command == 'interview':
+                    text = request.get('text', '').strip()[:1200]
+                    if not text:
+                        raise ValueError('Введите причину для приёма на работу.')
+                    interview_started = time.perf_counter()
+                    with contextlib.redirect_stdout(sys.stderr):
+                        result = evaluate_hiring(engine, litert_lm, text, recent_dialogue,
+                            on_sentence=lambda sentence: emit('interview_sentence', sentence))
+                    recent_dialogue.append(dict(role='user', text=text))
+                    recent_dialogue.append(dict(role='character', text=result['text']))
+                    del recent_dialogue[:-8]
+                    result.setdefault('timings', {})['worker_total_ms'] = (time.perf_counter() - interview_started) * 1000
+                    emit('interview_result', **result)
                 elif command == 'evaluate':
                     text = request.get('text', '').strip()[:2000]
                     try:

@@ -1,0 +1,49 @@
+.boss-dialog {
+ position: absolute; right: 32px; top: 32px; bottom: 32px; width: 550px;
+ background-color: rgba(8, 14, 27, 0.96); border-color: rgb(57, 166, 255); border-width: 1.5px;
+ border-radius: 26px; color: rgb(233, 241, 255); padding: 0;
+}
+.boss-header { flex-direction: row; align-items: center; padding: 18px; border-bottom-width: 1px; border-bottom-color: rgba(92, 156, 222, 0.28); }
+.boss-avatar { width: 58px; height: 58px; border-radius: 29px; border-width: 1px; border-color: rgb(82, 177, 255); margin-right: 14px; overflow: hidden; flex-shrink: 0; }
+.boss-avatar-small { width: 40px; height: 40px; border-radius: 13px; margin-right: 9px; }
+.boss-title { font-size: 21px; -unity-font-style: bold; color: rgb(242, 246, 255); }
+.boss-online { flex-direction: row; align-items: center; margin-top: 6px; }
+.boss-dot { width: 10px; height: 10px; border-radius: 5px; background-color: rgb(52, 224, 111); margin-right: 7px; }
+.boss-presence { font-size: 14px; color: rgb(174, 191, 210); }
+.boss-more { width: 42px; height: 42px; border-radius: 14px; background-color: rgb(20, 36, 60); border-width: 1px; border-color: rgb(48, 80, 120); color: white; font-size: 22px; margin-left: 8px; }
+.boss-status { margin: 9px 18px 0 18px; font-size: 13px; color: rgb(134, 176, 212); white-space: normal; }
+.boss-history { flex-grow: 1; min-height: 100px; margin: 12px 12px 6px 18px; }
+.boss-row { flex-direction: row; align-items: flex-start; margin-bottom: 17px; flex-shrink: 0; }
+.boss-row-player { justify-content: flex-end; padding-right: 8px; }
+.boss-bubble { max-width: 396px; border-radius: 20px; border-top-left-radius: 7px; background-color: rgb(23, 39, 63); border-width: 1px; border-color: rgb(42, 67, 101); padding: 12px 15px; flex-shrink: 1; }
+.boss-bubble-player { max-width: 405px; background-color: rgb(0, 91, 234); border-color: rgb(41, 165, 255); border-top-left-radius: 20px; border-bottom-right-radius: 5px; }
+.boss-message-meta { flex-direction: row; align-items: center; margin-bottom: 5px; }
+.boss-message-name { font-size: 15px; -unity-font-style: bold; color: rgb(137, 212, 255); margin-right: 10px; }
+.boss-player-name { color: rgb(220, 239, 255); }
+.boss-time { font-size: 12px; color: rgb(140, 161, 190); }
+.boss-player-time { color: rgb(173, 211, 255); }
+.boss-message-text { font-size: 18px; white-space: normal; color: rgb(234, 241, 255); }
+.boss-checks { font-size: 14px; color: rgb(97, 226, 255); -unity-text-align: middle-right; margin-top: 3px; }
+.boss-compose { flex-direction: row; align-items: center; padding: 4px 15px 14px 15px; flex-shrink: 0; }
+.boss-input { flex-grow: 1; min-width: 0; height: 58px; margin: 0 10px 0 0; }
+.boss-input > .unity-text-field__input { background-color: rgb(24, 35, 54); color: rgb(240, 246, 255); border-width: 1px; border-color: rgb(50, 80, 118); border-radius: 17px; padding: 12px; font-size: 17px; white-space: normal; }
+.boss-send { width: 50px; height: 50px; border-radius: 17px; background-color: rgb(0, 118, 255); border-width: 1px; border-color: rgb(72, 191, 255); color: white; font-size: 29px; margin: 0; }
+.boss-retry { margin: 3px 18px 8px 18px; padding: 8px; color: white; background-color: rgb(23, 65, 104); border-radius: 10px; }
+.boss-send:hover { background-color: rgb(35, 146, 255); }
+.boss-send:disabled { opacity: 0.4; }
+.boss-more:hover { background-color: rgb(28, 66, 107); }
+.boss-input > .unity-text-field__input { --unity-cursor-color: rgb(215, 242, 255); --unity-selection-color: rgba(35, 134, 255, 0.55); }
+.boss-input > .unity-text-field__input:focus { border-color: rgb(72, 191, 255); border-width: 2px; }
+.boss-close { font-size: 30px; -unity-text-align: middle-center; padding: 0; }
+.boss-close:hover { background-color: rgb(89, 39, 60); border-color: rgb(225, 105, 134); color: white; }
+.boss-history .unity-scroller--vertical { width: 12px; min-width: 12px; margin-left: 5px; margin-right: 0; background-color: rgba(8, 17, 31, 0.5); border-radius: 6px; }
+.boss-history .unity-scroller--vertical #unity-low-button,
+.boss-history .unity-scroller--vertical #unity-high-button { display: none; }
+.boss-history .unity-scroller--vertical .unity-slider--vertical { width: 10px; min-width: 10px; margin: 3px 1px; }
+.boss-history .unity-scroller--vertical .unity-base-slider__tracker { width: 4px; border-width: 0; border-radius: 3px; background-color: rgb(22, 39, 60); }
+.boss-history .unity-scroller--vertical .unity-base-slider__dragger { width: 7px; min-width: 7px; min-height: 32px; margin-left: 0; border-radius: 4px; border-width: 0; background-color: rgb(55, 135, 198); }
+.boss-history .unity-scroller--vertical .unity-base-slider__dragger:hover { background-color: rgb(91, 190, 255); }
+.boss-history .unity-scroller--vertical .unity-base-slider__dragger:active { background-color: rgb(133, 216, 255); }
+.boss-history .unity-scroller--vertical .unity-base-slider__dragger-border { border-width: 0; background-color: rgba(0,0,0,0); }
+
+.boss-placeholder { position: absolute; left: 14px; top: 18px; color: rgb(135, 158, 185); font-size: 16px; }

@@ -57,7 +57,7 @@ public class OfficeBossNpc : MonoBehaviour
         if(!near && player!=null && Vector3.Distance(player.position,transform.position)>attentionDistance+1) noticed=false;
         if(near && !noticed && conversationIndex<0 && IsSeated && CurrentAction!=Action.StandUp && CurrentAction!=Action.SitDown && drinking<.05f && reading<.05f)
         { noticed=true; GreetingCount++; conversationIndex=0; PlayAction(Action.Wave,3); }
-        if(startupPhase<0 && readInput && near && !LaptopDesktop.BlocksWorldUse && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
+        if(GetComponent<OfficeBossInterview>()==null && startupPhase<0 && readInput && near && !LaptopDesktop.BlocksWorldUse && Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame)
         { conversationIndex=Conversation.Length; PlayAction(Reactions[reactionIndex++%Reactions.Length],4); }
         elapsed+=dt;
         if(CurrentAction==Action.Walk)
