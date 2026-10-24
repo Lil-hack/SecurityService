@@ -557,7 +557,7 @@ public sealed class GemmaTestChat : MonoBehaviour
         StopWorker();
         ResetTrust();
         PrepareIncomingCall();
-        string weights = Resolve(modelInput.value.Trim().Trim('"'));
+        string weights = GemmaModelFiles.Resolve(modelInput.value.Trim().Trim('"'), Root);
         string python = Resolve(pythonPath);
         if (!File.Exists(weights)) { Fail("Файл модели не найден. Укажите полный путь к .litertlm."); return; }
         if (!weights.EndsWith(".litertlm", StringComparison.OrdinalIgnoreCase))

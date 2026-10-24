@@ -5,6 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: fa05da5819e8b864d8f4076849a8f8a5
+  - enabled: 1
+    path: Assets/Scenes/ExecutiveOffice.unity
+    guid: b39f6b01df6ee254db9ecf175416184d
   - enabled: 0
     path: Assets/Scenes/Office.unity
     guid: 6a197bc0c1a4c6442bbd58d1a40d680e
@@ -17,8 +23,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Office2_Raccoon.unity
     guid: b2956ce23db180e459ab95451dba3ddc
-  - enabled: 1
-    path: Assets/Scenes/ExecutiveOffice.unity
-    guid: b39f6b01df6ee254db9ecf175416184d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

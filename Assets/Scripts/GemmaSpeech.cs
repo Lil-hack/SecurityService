@@ -106,7 +106,7 @@ public sealed class GemmaSpeech : MonoBehaviour
         set
         {
             volume = Mathf.Clamp01(value);
-            if (source != null) source.volume = volume;
+            if (source != null) source.volume = volume * OfficeGameSettings.Voice;
         }
     }
 
@@ -134,7 +134,7 @@ public sealed class GemmaSpeech : MonoBehaviour
         if (source == null) source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
         source.spatialBlend = 0f;
-        source.volume = Volume;
+        source.volume = Volume * OfficeGameSettings.Voice;
         PitchSemitones = pitchSemitones;
         if (raspFilter == null) raspFilter = gameObject.AddComponent<AudioDistortionFilter>();
         Rasp = rasp;
@@ -344,7 +344,7 @@ public sealed class GemmaSpeech : MonoBehaviour
             float wobble = Mathf.Sin(t * 2f * Mathf.PI * 4.1f) * .65f + Mathf.Sin(t * 2f * Mathf.PI * 2.7f) * .35f;
             source.pitch = Mathf.Pow(2f, (pitchSemitones + wobble * Mathf.Clamp01(Tremble) * .35f) / 12f);
             float envelope = .5f + .3f * Mathf.Sin(t * 2.3f) + .2f * Mathf.Sin(t * 4.7f);
-            source.volume = volume * (1f - Mathf.Clamp01(VolumeVariation) * .25f * envelope);
+            source.volume = volume * OfficeGameSettings.Voice * (1f - Mathf.Clamp01(VolumeVariation) * .25f * envelope);
         }
         if (source == null || source.isPlaying) return;
         if (current != null)

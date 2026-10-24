@@ -66,7 +66,7 @@ public static class WindowsBuildProfileSetup
         var profile=AssetDatabase.LoadAssetAtPath<BuildProfile>(ProfilePath);
         profile.name="Windows Balanced Release";
         profile.overrideGlobalScenes=true;
-        profile.scenes=new[]{new EditorBuildSettingsScene("Assets/Scenes/ExecutiveOffice.unity",true)};
+        profile.scenes=File.Exists(OfficeMainMenuSetup.ScenePath)?new[]{new EditorBuildSettingsScene(OfficeMainMenuSetup.ScenePath,true),new EditorBuildSettingsScene("Assets/Scenes/ExecutiveOffice.unity",true)}:new[]{new EditorBuildSettingsScene("Assets/Scenes/ExecutiveOffice.unity",true)};
         var settings=new SerializedObject(profile);
         settings.FindProperty("m_BuildTarget").intValue=(int)BuildTarget.StandaloneWindows64;
         settings.FindProperty("m_Subtarget").intValue=(int)StandaloneBuildSubtarget.Player;
@@ -152,13 +152,15 @@ public static class WindowsBuildProfileSetup
     {
         var profile=BuildProfile.GetActiveBuildProfile();
         if(profile==null || AssetDatabase.GetAssetPath(profile)!=ProfilePath) throw new InvalidOperationException("Optimized profile is not active.");
-        if(profile.GetScenesForBuild().Count(s=>s.enabled)!=1 || profile.GetScenesForBuild()[0].path!="Assets/Scenes/ExecutiveOffice.unity") throw new InvalidOperationException("Unexpected scene list.");
+        var scenePaths=profile.GetScenesForBuild().Where(s=>s.enabled).Select(s=>s.path).ToArray();
+        var expectedScenes=File.Exists(OfficeMainMenuSetup.ScenePath)?new[]{OfficeMainMenuSetup.ScenePath,"Assets/Scenes/ExecutiveOffice.unity"}:new[]{"Assets/Scenes/ExecutiveOffice.unity"};
+        if(!scenePaths.SequenceEqual(expectedScenes))throw new InvalidOperationException("Unexpected scene list.");
         if(PlayerSettings.GetScriptingBackend(NamedBuildTarget.Standalone)!=ScriptingImplementation.Mono2x) throw new InvalidOperationException("Unexpected scripting backend.");
         var pipeline=QualitySettings.renderPipeline as UniversalRenderPipelineAsset;
         if(pipeline==null || AssetDatabase.GetAssetPath(pipeline)!=PipelinePath) throw new InvalidOperationException("Balanced render pipeline is not active.");
         if(AssetDatabase.LoadAllAssetsAtPath(RendererPath).OfType<ScriptableRendererFeature>().Any(f=>f.GetType().Name=="ScreenSpaceAmbientOcclusion"))
             throw new InvalidOperationException("Remove SSAO from the balanced renderer before building: inactive SSAO crashes this Unity version after resource stripping. Run Configure Windows Balanced Release.");
-        return "Active: Windows Balanced Release; x64, Mono, DX11, LZ4HC, release; ExecutiveOffice only; 1600x900 resizable; URP 90%, 18m shadows/1024/2 cascades, SSAO off; static architecture batching on build.";
+        return "Active: Windows Balanced Release; x64, Mono, DX11, LZ4HC, release; MainMenu then ExecutiveOffice; 1600x900 resizable; URP 90%, 18m shadows/1024/2 cascades, SSAO off; static architecture batching on build.";
     }
 
     [MenuItem("Tools/Build/Build Windows Balanced Release")]

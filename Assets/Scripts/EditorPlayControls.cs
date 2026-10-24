@@ -6,24 +6,25 @@ using UnityEngine.SceneManagement;
 // Compiled exclusively for Editor Play Mode. No scene component is required.
 public sealed class EditorPlayControls : MonoBehaviour
 {
-    const string VolumeKey="EditorDebug.MasterVolume";
     static EditorPlayControls instance;
     OfficeThirdPersonController player;
     bool visible=true, ownsControl, previousControl, previousCursorVisible;
     CursorLockMode previousCursor;
     float volume, originalVolume;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void Register(){SceneManager.sceneLoaded-=SceneLoaded;SceneManager.sceneLoaded+=SceneLoaded;}
+    static void SceneLoaded(Scene scene,LoadSceneMode mode){Install();}
     static void Install()
     {
-        if(instance!=null)return;
+        if(instance!=null||SceneManager.GetActiveScene().name=="MainMenu")return;
         var go=new GameObject("Editor only · Play controls");
         instance=go.AddComponent<EditorPlayControls>();DontDestroyOnLoad(go);
     }
     void Awake()
     {
         originalVolume=AudioListener.volume;
-        volume=Mathf.Clamp01(PlayerPrefs.GetFloat(VolumeKey,1));AudioListener.volume=volume;
+        volume=OfficeGameSettings.Master;AudioListener.volume=volume;
     }
     void Update()
     {
@@ -54,7 +55,7 @@ public sealed class EditorPlayControls : MonoBehaviour
     void SetVolume(float value)
     {
         volume=Mathf.Clamp01(value);AudioListener.volume=volume;
-        PlayerPrefs.SetFloat(VolumeKey,volume);PlayerPrefs.Save();
+        OfficeGameSettings.SetMaster(volume);PlayerPrefs.Save();
     }
     void ResetSaves()
     {

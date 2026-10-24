@@ -1,0 +1,61 @@
+.menu-rail { position:absolute; left:40px; top:40px; bottom:40px; width:390px; background-color:rgba(7,18,32,0.89); border-width:1px; border-color:rgba(96,163,215,0.35); border-radius:26px; padding:34px 28px; }
+.menu-eyebrow { color:rgb(96,203,242); font-size:14px; letter-spacing:3px; margin-bottom:14px; }
+.menu-brand { color:rgb(245,248,255); font-size:51px; -unity-font-style:bold; margin:0 0 18px 0; }
+.menu-tagline { color:rgb(179,199,220); font-size:17px; white-space:normal; margin-bottom:36px; }
+.menu-navigation { flex-shrink:0; }
+.menu-nav { height:58px; margin:5px 0; padding-left:18px; -unity-text-align:middle-left; font-size:23px; color:rgb(224,236,249); background-color:rgba(20,41,62,0.45); border-width:1px; border-color:rgba(62,106,143,0.6); border-radius:14px; }
+.menu-nav:hover { background-color:rgb(29,80,118); border-color:rgb(90,190,244); color:white; }
+.menu-primary { background-color:rgb(0,107,224); border-color:rgb(65,181,255); color:white; -unity-font-style:bold; }
+.menu-primary:hover { background-color:rgb(15,134,255); }
+.menu-footnote { color:rgb(125,154,181); font-size:11px; white-space:normal; margin-top:25px; }
+.menu-version { position:absolute; top:30px; right:38px; color:rgb(208,225,237); font-size:13px; background-color:rgba(7,18,32,0.6); border-radius:8px; padding:7px 12px; }
+.office-caption { position:absolute; left:490px; top:80px; }
+.caption-eyebrow { color:rgb(149,221,244); font-size:12px; letter-spacing:3px; -unity-text-outline-width:1px; -unity-text-outline-color:rgba(0,0,0,.6); }
+.caption-title { font-size:32px; color:rgb(244,246,255); white-space:normal; -unity-font-style:bold; -unity-text-outline-width:1px; -unity-text-outline-color:rgba(0,0,0,.5); }
+.download-panel { position:absolute; right:38px; bottom:40px; width:380px; padding:21px; background-color:rgba(6,19,33,0.94); border-width:1px; border-color:rgb(41,131,191); border-radius:20px; }
+.download-eyebrow { color:rgb(87,182,232); font-size:11px; letter-spacing:1px; margin-bottom:9px; }
+.download-title { color:rgb(232,242,255); font-size:19px; white-space:normal; margin-bottom:12px; }
+.download-detail { color:rgb(148,179,203); font-size:13px; white-space:normal; margin-top:10px; }
+.model-progress { height:18px; margin:0; }
+.model-progress > .unity-progress-bar__container { background-color:rgb(15,37,58); border-radius:8px; overflow:hidden; border-width:0; }
+.model-progress .unity-progress-bar__background { height:18px; background-color:rgb(15,37,58); border-radius:8px; overflow:hidden; border-width:0; }
+.model-progress .unity-progress-bar__progress { background-color:rgb(21,149,255); border-width:0; border-radius:8px; }
+.model-progress .unity-progress-bar__title { color:white; font-size:11px; -unity-font-style:bold; }
+.download-ready { border-color:rgb(64,167,137); }
+.download-ready .unity-progress-bar__progress { background-color:rgb(38,160,120); }
+.download-actions { flex-direction:row; margin-top:10px; }
+.menu-small { padding:7px 12px; margin:0 8px 0 0; border-radius:9px; background-color:rgb(23,56,83); border-width:1px; border-color:rgb(48,112,159); color:rgb(221,237,255); font-size:13px; }
+.menu-backdrop { position:absolute; left:0; right:0; top:0; bottom:0; background-color:rgba(3,10,22,0.78); align-items:center; justify-content:center; }
+.menu-modal { width:570px; max-height:790px; padding:26px; background-color:rgb(9,23,39); border-width:1px; border-color:rgb(55,160,232); border-radius:24px; }
+.modal-header { flex-direction:row; align-items:center; margin-bottom:22px; }
+.modal-title { color:rgb(237,244,255); font-size:26px; -unity-font-style:bold; }
+.modal-close { width:38px; height:38px; margin:0; font-size:28px; background-color:rgb(23,45,67); border-width:1px; border-color:rgb(53,95,130); border-radius:12px; color:white; }
+.modal-close:hover { background-color:rgb(102,42,61); border-color:rgb(208,98,123); }
+.mode-modal { width:970px; margin-right:420px; }
+.mode-cards { flex-direction:row; }
+.mode-card { width:440px; margin:0 8px; padding:22px; background-color:rgb(17,39,61); border-width:1px; border-color:rgb(43,103,149); border-radius:18px; }
+.mode-unavailable { background-color:rgb(22,31,44); border-color:rgb(56,71,87); }
+.mode-kicker { color:rgb(92,194,240); font-size:12px; letter-spacing:2px; margin-bottom:9px; }
+.mode-unavailable .mode-kicker { color:rgb(131,149,164); }
+.mode-title { color:rgb(243,248,255); font-size:31px; -unity-font-style:bold; margin-bottom:12px; }
+.mode-description { color:rgb(175,197,218); font-size:17px; white-space:normal; }
+.mode-art { height:235px; margin-top:14px; border-radius:14px; -unity-background-scale-mode:scale-and-crop; }
+.mode-unavailable .mode-art { opacity:0.45; }
+.mode-start { height:48px; font-size:18px; background-color:rgb(0,111,230); border-width:1px; border-color:rgb(57,173,250); color:white; border-radius:13px; margin-top:16px; }
+.mode-start:hover { background-color:rgb(29,143,255); }
+.mode-start:disabled { background-color:rgb(32,47,64); border-color:rgb(59,79,98); color:rgb(133,151,167); }
+.solo-hint { color:rgb(139,184,208); font-size:12px; white-space:normal; height:30px; margin-top:10px; }
+.mode-unavailable .mode-start { margin-top:56px; }
+.setting-heading { flex-direction:row; margin:8px 0 5px 0; }
+.setting-name { color:rgb(214,231,248); font-size:18px; }
+.setting-value { color:rgb(107,201,250); font-size:16px; }
+.menu-slider { height:28px; margin-bottom:15px; }
+.menu-slider .unity-base-slider__tracker { height:5px; background-color:rgb(33,65,93); border-width:0; border-radius:3px; }
+.menu-slider .unity-base-slider__dragger { width:18px; height:18px; background-color:rgb(76,190,255); border-width:1px; border-color:rgb(158,222,255); border-radius:9px; }
+.menu-toggle { margin:13px 0; color:rgb(214,231,248); font-size:18px; }
+.menu-toggle .unity-toggle__label { color:rgb(214,231,248); }
+.menu-quality { margin:8px 0 16px 0; }
+.menu-quality .unity-base-field__label { color:rgb(214,231,248); font-size:17px; min-width:210px; }
+.menu-quality .unity-base-field__input { background-color:rgb(23,45,67); color:white; border-width:1px; border-color:rgb(50,103,144); border-radius:9px; padding:7px; }
+.settings-note { color:rgb(141,171,196); font-size:14px; white-space:normal; margin:14px 0; }
+.rules-text { color:rgb(212,229,247); font-size:18px; white-space:normal; }

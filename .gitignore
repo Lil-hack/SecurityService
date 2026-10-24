@@ -10,6 +10,7 @@
 /Tools/Gemma/*
 !/Tools/Gemma/jev_evaluator.py
 !/Tools/Gemma/hiring_evaluator.py
+!/Tools/Gemma/worker.py
 !/Tools/Gemma/test_jev_evaluator.py
 !/Tools/Gemma/check_office_interview.py
 !/Tools/Gemma/OFFICE_INTERVIEW.md

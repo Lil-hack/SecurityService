@@ -256,7 +256,7 @@ public class OfficeThirdPersonController : MonoBehaviour
                 if(first) { bounds=new Bounds(point,Vector3.zero); first=false; }
                 else bounds.Encapsulate(point);
             }
-            Destroy(mesh);
+            if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);
         }
         return bounds;
     }

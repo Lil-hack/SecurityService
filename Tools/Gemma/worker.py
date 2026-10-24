@@ -20,6 +20,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', required=True)
     parser.add_argument('--system-prompt')
+    parser.add_argument('--interview', action='store_true', help='Office interview prompts arrive with each JSON command')
     args = parser.parse_args()
     model_name = 'Gemma 4 E2B IT'
     if not os.path.isfile(args.model):
@@ -27,8 +28,10 @@ def main():
         return 1
     persona_path = args.system_prompt or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 'Prompts', 'nina_petrovna.txt')
-    with open(persona_path, encoding='utf-8') as persona_file:
-        persona = persona_file.read().strip()
+    persona = ''
+    if not args.interview:
+        with open(persona_path, encoding='utf-8') as persona_file:
+            persona = persona_file.read().strip()
     engine = None
     conversation = None
     recent_dialogue = []
@@ -51,7 +54,7 @@ def main():
                     messages=[litert_lm.Message.system(system)],
                     thinking_config=litert_lm.ThinkingConfig(enable_thinking=False))
 
-        conversation = new_conversation()
+        conversation = None if args.interview else new_conversation()
         emit('ready', model_name + ' · CPU · локально')
         for line in sys.stdin:
             try:
@@ -82,7 +85,8 @@ def main():
                     interview_started = time.perf_counter()
                     with contextlib.redirect_stdout(sys.stderr):
                         result = evaluate_hiring(engine, litert_lm, text, recent_dialogue,
-                            on_sentence=lambda sentence: emit('interview_sentence', sentence))
+                            on_sentence=lambda sentence: emit('interview_sentence', sentence),
+                            prompt_settings=request.get('prompts'))
                     recent_dialogue.append(dict(role='user', text=text))
                     recent_dialogue.append(dict(role='character', text=result['text']))
                     del recent_dialogue[:-8]

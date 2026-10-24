@@ -23,6 +23,9 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
+    m_path: Assets/Scenes/MainMenu.unity
+    m_guid: fa05da5819e8b864d8f4076849a8f8a5
+  - m_enabled: 1
     m_path: Assets/Scenes/ExecutiveOffice.unity
     m_guid: b39f6b01df6ee254db9ecf175416184d
   m_HasScriptingDefines: 0
