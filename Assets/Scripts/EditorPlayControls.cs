@@ -17,7 +17,7 @@ public sealed class EditorPlayControls : MonoBehaviour
     static void SceneLoaded(Scene scene,LoadSceneMode mode){Install();}
     static void Install()
     {
-        if(instance!=null||SceneManager.GetActiveScene().name=="MainMenu")return;
+        if(instance!=null||SceneManager.GetActiveScene().name=="MainMenu"||FindAnyObjectByType<OfficeDialogueLab>()!=null)return;
         var go=new GameObject("Editor only · Play controls");
         instance=go.AddComponent<EditorPlayControls>();DontDestroyOnLoad(go);
     }

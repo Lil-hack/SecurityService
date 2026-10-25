@@ -40,6 +40,15 @@ public static class OfficeLoanProgress
     {
         if(!valid||Paid(persona))return false;
         if(outcome!="positive"&&outcome!="negative"&&outcome!="neutral"&&outcome!="repeated")return false;
+        bool paid=ApplyPreview(persona,state,text,valid,outcome,novel,loanRequest)&&
+            OfficeTeamProgress.TryRecordReward(RewardId(persona),persona.Reward);
+        Save(state);return paid;
+    }
+    // Same trust rules without reading saves, paying rewards or writing PlayerPrefs.
+    public static bool ApplyPreview(OfficeStaffPersona persona,State state,string text,bool valid,string outcome,bool novel,bool loanRequest)
+    {
+        if(!valid)return false;
+        if(outcome!="positive"&&outcome!="negative"&&outcome!="neutral"&&outcome!="repeated")return false;
         if(outcome=="negative")state.trustUnits=Mathf.Max(0,state.trustUnits-12);
         else
         {
@@ -48,9 +57,7 @@ public static class OfficeLoanProgress
             if(outcome=="positive"&&novel&&!repeated)
             {state.trustUnits=Mathf.Min(120,state.trustUnits+60/persona.RequiredPersuasions);state.accepted.Add(text);}
         }
-        bool paid=state.trustUnits>=120&&state.accepted.Count>=persona.RequiredPersuasions&&state.loanRequested&&
-            OfficeTeamProgress.TryRecordReward(RewardId(persona),persona.Reward);
-        Save(state);return paid;
+        return state.trustUnits>=120&&state.accepted.Count>=persona.RequiredPersuasions&&state.loanRequested;
     }
     public static void Remember(State state,string role,string text)
     {

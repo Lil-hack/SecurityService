@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e16c54bcff21c4ca67309ce748c3d3, type: 3}
+  m_Name: man1
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeDialogueLabProfile
+  displayName: "\u0413\u0435\u043D\u0430 \u041F\u0435\u0440\u0435\u043A\u0443\u0440\u043E\u0432"
+  sourceScene: Assets/Scenes/ExecutiveOffice.unity
+  sourceObject: NPC man1 - Office
+  isBoss: 0
+  staff: {fileID: 11400000, guid: 4492d46c44a2ad84c8088a1b10d6d6c4, type: 2}
+  sourceStaff: {fileID: 11400000, guid: 23965b4ba98c12542bf9983da5d94afb, type: 2}
+  portrait: {fileID: 2800000, guid: 7c656053556d60a4bb16b631596162e1, type: 3}
+  modelPath: Models/gemma-4-E2B-it.litertlm
+  pythonPath: .local/gemma-runtime/Scripts/python.exe
+  boss:
+    BossRolePrompt: 
+    ReplyInstructions: 
+    AcceptanceInstructions: 
+    RejectionInstructions: 
+    JevQuestion: 
+    JevInstructions: 
+    JevAcceptCriteria: 
+    JevRejectCriteria: 
+    GemmaEvaluationRules: 
+    Greeting: 
+    HiredGreeting: 
+    AcceptedFallbackReply: 
+    RejectedFallbackReply: 
+  voice:
+    voicePath: 
+    SpeechRate: 1
+    PitchSemitones: 0
+    Tremble: 0
+    Rasp: 0
+    VolumeVariation: 0
+    PauseSeconds: 0.04
+    Volume: 1
+    TelephoneEnabled: 0
