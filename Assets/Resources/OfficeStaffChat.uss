@@ -1,0 +1,8 @@
+.staff-dialog { width: 560px; }
+.staff-objective { margin: 12px 18px 8px 18px; font-size: 15px; color: rgb(215, 229, 240); white-space: normal; }
+.staff-trust { margin: 0 18px 5px 18px; height: 28px; }
+.staff-trust .unity-progress-bar__background { background-color: rgb(18, 37, 53); border-radius: 10px; }
+.staff-trust .unity-progress-bar__progress { background-color: rgb(43, 151, 130); border-radius: 10px; }
+.staff-trust .unity-progress-bar__title { color: white; font-size: 14px; -unity-font-style: bold; }
+.staff-mission { margin: 3px 18px; font-size: 13px; color: rgb(145, 180, 200); }
+.staff-payment { margin: 8px 18px 2px 18px; padding: 10px; border-radius: 12px; background-color: rgb(28, 72, 57); color: rgb(255, 224, 145); font-size: 16px; -unity-font-style: bold; white-space: normal; }

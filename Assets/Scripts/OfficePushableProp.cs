@@ -30,8 +30,13 @@ public class OfficePushableProp : MonoBehaviour
         {
             var renderers=GetComponentsInChildren<Renderer>();
             var bounds=new Bounds(transform.position,Vector3.zero);
-            if(renderers.Length>0) bounds=renderers[0].bounds;
-            foreach(var renderer in renderers) bounds.Encapsulate(renderer.bounds);
+            bool first=true;
+            foreach(var renderer in renderers)
+            {
+                // Steam and trails are visual effects, not the solid pickup footprint.
+                if(renderer is ParticleSystemRenderer || renderer is TrailRenderer)continue;
+                if(first){bounds=renderer.bounds;first=false;}else bounds.Encapsulate(renderer.bounds);
+            }
             return bounds;
         }
     }

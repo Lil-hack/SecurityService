@@ -10,6 +10,7 @@ import sys
 import time
 from trust_evaluator import evaluate
 from hiring_evaluator import evaluate_hiring
+from social_evaluator import evaluate_social, social_reply
 
 
 def emit(kind, text='', **fields):
@@ -21,6 +22,7 @@ def main():
     parser.add_argument('--model', required=True)
     parser.add_argument('--system-prompt')
     parser.add_argument('--interview', action='store_true', help='Office interview prompts arrive with each JSON command')
+    parser.add_argument('--office-social', action='store_true', help='Office staff dialogue with code-owned trust and payments')
     args = parser.parse_args()
     model_name = 'Gemma 4 E2B IT'
     if not os.path.isfile(args.model):
@@ -29,7 +31,7 @@ def main():
     persona_path = args.system_prompt or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 'Prompts', 'nina_petrovna.txt')
     persona = ''
-    if not args.interview:
+    if not args.interview and not args.office_social:
         with open(persona_path, encoding='utf-8') as persona_file:
             persona = persona_file.read().strip()
     engine = None
@@ -54,7 +56,7 @@ def main():
                     messages=[litert_lm.Message.system(system)],
                     thinking_config=litert_lm.ThinkingConfig(enable_thinking=False))
 
-        conversation = None if args.interview else new_conversation()
+        conversation = None if args.interview or args.office_social else new_conversation()
         emit('ready', model_name + ' · CPU · локально')
         for line in sys.stdin:
             try:
@@ -92,6 +94,15 @@ def main():
                     del recent_dialogue[:-8]
                     result.setdefault('timings', {})['worker_total_ms'] = (time.perf_counter() - interview_started) * 1000
                     emit('interview_result', **result)
+                elif command == 'social_judge':
+                    with contextlib.redirect_stdout(sys.stderr):
+                        result = evaluate_social(engine, litert_lm, request)
+                    emit('social_evaluation', **result)
+                elif command == 'social_reply':
+                    with contextlib.redirect_stdout(sys.stderr):
+                        reply = social_reply(engine, litert_lm, request,
+                            on_sentence=lambda sentence: emit('social_sentence', sentence))
+                    emit('social_done', reply)
                 elif command == 'evaluate':
                     text = request.get('text', '').strip()[:2000]
                     try:

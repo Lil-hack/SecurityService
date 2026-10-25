@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1759792914558558657}
   - component: {fileID: 8977880933634622337}
   - component: {fileID: 1314507457651497705}
+  - component: {fileID: 4283003619635877596}
+  - component: {fileID: 6415203105152317961}
   m_Layer: 0
   m_Name: Staff
   m_TagString: Untagged
@@ -99,6 +101,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4283003619635877596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337500485093747129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a991d9e05460fee47801afa50a52ad42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeStaffConversation
+  persona: {fileID: 11400000, guid: 549a99a1aade4034093a3ff74279be3a, type: 2}
+  interactionDistance: 2.8
+  modelPath: Models/gemma-4-E2B-it.litertlm
+  pythonPath: .local/gemma-runtime/Scripts/python.exe
+--- !u!114 &6415203105152317961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337500485093747129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c32fdb8c51f6e2a44add4b5ab8874ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeStaffSpeechMotion
 --- !u!1001 &7507410815657913579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1752,6 +1782,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8259787944402253117, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2093622386853695784}
+    - targetCorrespondingSourceObject: {fileID: 6823351136149478024, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8168793435950483170}
   m_SourcePrefab: {fileID: 100100000, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
 --- !u!1 &41016663322237874 stripped
 GameObject:
@@ -2561,6 +2594,30 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &3935802925859059299 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6823351136149478024, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
+  m_PrefabInstance: {fileID: 7507410815657913579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8168793435950483170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3935802925859059299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f48aa6076097946a6da7de7b3001e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeToonOutline
+  settings: {fileID: 11400000, guid: 069d2857c1e030a4aafd419f7fc98325, type: 2}
+  outlineMaterial: {fileID: 2100000, guid: 2e1a8682f40c89343bad86d54f3a266c, type: 2}
+  outlineMesh: {fileID: 4300000, guid: 1930d53606f63ab4eb34365e3fbf4bd1, type: 2}
+  sources:
+  - {fileID: 9186728625751174013}
+  animatedSource: {fileID: 9186728625751174013}
+  character: 1
 --- !u!1 &5798493927877312777 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4059939938459987426, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
@@ -2924,3 +2981,8 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!137 &9186728625751174013 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1680545658638469014, guid: db744fe856fb3804dba3f37129d41a52, type: 3}
+  m_PrefabInstance: {fileID: 7507410815657913579}
+  m_PrefabAsset: {fileID: 0}

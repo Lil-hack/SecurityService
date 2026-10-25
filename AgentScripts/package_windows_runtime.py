@@ -42,12 +42,14 @@ def main():
     copy_tree(base / 'DLLs', runtime / 'DLLs', ('__pycache__',))
     copy_tree(base / 'Lib', runtime / 'Lib', ('site-packages', '__pycache__', 'test', 'tests', 'idlelib', 'tkinter', 'ensurepip'))
     copy_tree(environment / 'Lib/site-packages', runtime / 'Lib/site-packages', ('__pycache__', 'tests', 'test', 'pip', 'pip-25.0.1.dist-info'))
-    for relative in ('Tools/Gemma/worker.py', 'Tools/Gemma/trust_evaluator.py', 'Tools/Gemma/hiring_evaluator.py', 'Tools/Gemma/jev_evaluator.py', 'Tools/Gemma/Prompts/office_boss.txt', 'Tools/Piper/worker.py', 'Tools/Piper/VOICE_MODEL_CARD.md'):
+    for relative in ('Tools/Gemma/worker.py', 'Tools/Gemma/trust_evaluator.py', 'Tools/Gemma/hiring_evaluator.py', 'Tools/Gemma/jev_evaluator.py', 'Tools/Gemma/social_evaluator.py', 'Tools/Gemma/Prompts/office_boss.txt', 'Tools/Piper/worker.py', 'Tools/Piper/VOICE_MODEL_CARD.md'):
         destination = output / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(str(PROJECT / relative), str(destination))
     voice_root = 'Models/Piper/Mantella-RU-Piper-1.0'
-    for suffix in ('SKSE/Plugins/MantellaSoftware/piper/models/skyrim/low/malecommoner.onnx', 'SKSE/Plugins/MantellaSoftware/piper/models/skyrim/low/malecommoner.onnx.json', 'README-Mantella-RU-Piper.txt'):
+    voices = ('malecommoner', 'maleyoungeager', 'femaleyoungeager', 'maleeventoned', 'femalecondescending')
+    suffixes = [f'SKSE/Plugins/MantellaSoftware/piper/models/skyrim/low/{voice}.onnx{ext}' for voice in voices for ext in ('', '.json')]
+    for suffix in suffixes + ['README-Mantella-RU-Piper.txt']:
         relative = voice_root + '/' + suffix
         destination = output / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -64,7 +66,7 @@ def main():
         'Run SecurityService.exe. Keep all adjacent folders and DLLs together.\n'
         'The main menu verifies the Gemma model and downloads it if missing.\n'
         'Settings are saved automatically. Co-op is not available yet.\n'
-        'The local Python/Gemma/Piper runtime and the boss voice are included.\n'
+        'The local Python/Gemma/Piper runtime, boss voice and four staff voices are included.\n'
         'No private TypeSafe credentials are included. Jev uses TYPESAFE_API_KEY\n'
         'from the environment if configured; otherwise the existing local Gemma\n'
         'fallback evaluates interview answers.\n', encoding='utf-8')

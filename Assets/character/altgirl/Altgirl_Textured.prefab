@@ -75,7 +75,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3316382477097071661}
+    - targetCorrespondingSourceObject: {fileID: 979914714490633242, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1006792922637316384}
   m_SourcePrefab: {fileID: 100100000, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
+--- !u!137 &1051370050704892513 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6349745251455543106, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
+  m_PrefabInstance: {fileID: 6235766760143111459}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6505604716843104370 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
@@ -94,3 +102,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TripoArmClearance
   minimumArmAngle: 14
+--- !u!1 &6561955667813382457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 979914714490633242, guid: 4a3facac2f1d16946bc3413de4b60ea4, type: 3}
+  m_PrefabInstance: {fileID: 6235766760143111459}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1006792922637316384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6561955667813382457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f48aa6076097946a6da7de7b3001e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeToonOutline
+  settings: {fileID: 11400000, guid: 069d2857c1e030a4aafd419f7fc98325, type: 2}
+  outlineMaterial: {fileID: 2100000, guid: 2e1a8682f40c89343bad86d54f3a266c, type: 2}
+  outlineMesh: {fileID: 4300000, guid: 9d4b2adf204fe954e9e00ec11208fd28, type: 2}
+  sources:
+  - {fileID: 1051370050704892513}
+  animatedSource: {fileID: 1051370050704892513}
+  character: 1

@@ -52,7 +52,8 @@ public static class WindowsBuildProfileSetup
         pipelineSO.FindProperty("m_RendererDataList").GetArrayElementAtIndex(0).objectReferenceValue=renderer;
         pipelineSO.FindProperty("m_SoftShadowQuality").intValue=2;
         pipelineSO.FindProperty("m_UseSRPBatcher").boolValue=true;
-        pipelineSO.FindProperty("m_AdditionalLightShadowsSupported").boolValue=false;
+        // Golden window spotlights need dynamic character/furniture shadows in the player.
+        pipelineSO.FindProperty("m_AdditionalLightShadowsSupported").boolValue=true;
         pipelineSO.ApplyModifiedPropertiesWithoutUndo();
         pipeline.renderScale=.9f; pipeline.msaaSampleCount=1;
         pipeline.supportsCameraOpaqueTexture=false;

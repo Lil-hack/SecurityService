@@ -99,7 +99,39 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4172731537182910370}
+    - targetCorrespondingSourceObject: {fileID: 8077663606698602722, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7129147180215712727}
   m_SourcePrefab: {fileID: 100100000, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
+--- !u!137 &577106664789943245 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7682619214546245545, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
+  m_PrefabInstance: {fileID: 7105675312382227556}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1334699691867161734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8077663606698602722, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
+  m_PrefabInstance: {fileID: 7105675312382227556}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7129147180215712727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334699691867161734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f48aa6076097946a6da7de7b3001e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OfficeToonOutline
+  settings: {fileID: 11400000, guid: 069d2857c1e030a4aafd419f7fc98325, type: 2}
+  outlineMaterial: {fileID: 2100000, guid: 2e1a8682f40c89343bad86d54f3a266c, type: 2}
+  outlineMesh: {fileID: 4300000, guid: c19d4bbff15ea4345a85904d28a5eba1, type: 2}
+  sources:
+  - {fileID: 577106664789943245}
+  animatedSource: {fileID: 577106664789943245}
+  character: 1
 --- !u!1 &7952521164784601397 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c1acfd2ffb9af44a8e1510b4ddb4fd4, type: 3}
